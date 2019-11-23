@@ -1,6 +1,6 @@
 
 
-**This a modified version of Oh My Bash framework**
+**This is a modified version of Oh My Bash framework**
 https://github.com/ohmybash/oh-my-bash
 
 I have used some of bash-it framework functions and utilties (https://github.com/Bash-it/bash-it)
