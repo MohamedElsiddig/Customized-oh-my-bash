@@ -1,8 +1,7 @@
 # MIT License
-cite about-plugin
-about-plugin 'This plugin can be used to create, delete, and navigate marks in bash It depends on Junegunn Choi fuzzy-finder fzf'
-# Copyright (c) 2018 Urbain Vaes
 
+# Copyright (c) 2018 Urbain Vaes
+about-plugin 'This plugin can be used to create, delete, and navigate marks in bash It depends on Junegunn Choi fuzzy-finder fzf'
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -46,14 +45,6 @@ if [[ -z "${FZF_MARKS_COMMAND}" ]] ; then
 fi
 
 function mark {
-	about 'Create and use bookmarks for directories on your filesystems using fzf.'
-	group 'misc'
-	example 'mark <bookmark_name> - to register a new mark to the current directory '
-	example 'fzm [<optional-initial-query>], to jump to or delete a mark using fzf '
-	if [[ -z $1 ]]
-		then
-			reference mark
-		else
     local mark_to_add
     mark_to_add="$* : $(pwd)"
 
@@ -64,7 +55,6 @@ function mark {
         echo "** The following mark has been added **"
     fi
     echo "${mark_to_add}" | _color_marks
-	fi
 }
 
 function _handle_symlinks {
@@ -97,7 +87,6 @@ function _color_marks {
 function fzm {
     lines=$(_color_marks < "${FZF_MARKS_FILE}" | eval ${FZF_MARKS_COMMAND} \
         --ansi \
-        --border \
         --expect="${FZF_MARKS_DELETE:-ctrl-d}" \
         --multi \
         --bind=ctrl-y:accept,ctrl-t:toggle \
