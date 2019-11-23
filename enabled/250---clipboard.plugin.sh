@@ -1,0 +1,1 @@
+../plugins/clipboard.plugin.sh

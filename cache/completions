@@ -1,0 +1,62 @@
+apm                   [ ]     apm-bash-completion
+apt                   [x]     bash completion for apt-history function in apt plugin
+awscli                [ ]     bash completion for aws command
+base                  [x]     Bash completion for some of the functions found in base plugin
+bashing               [ ]     Bash completion for Bashing tool (https://github.com/xsc/bashing)
+bd                    [ ]     Bash Completion for bd blugin
+bpkg                  [ ]     Bash completion for `bash package manager tool "bpkg"` (https://github.com/bpkg)
+brew                  [ ]     bash completion for homebrew
+bundler               [ ]     bash completion for the `bundle` command
+capistrano            [ ]     Bash completion support for Capistrano
+composer              [ ]     Bash completion support for Composer
+conda                 [ ]     
+defaults              [ ]     Bash command line completion for defaults
+dirs                  [ ]     Bash completion support for the "dirs" plugin (commands G, R)
+django                [ ]     This bash script adds tab-completion feature to django-admin.py and manage.py
+docker                [ ]     Bash completion file for core docker commands
+docker-compose        [ ]     bash completion for docker-compose
+docker-machine        [ ]     Bash completion file for docker-machine commands
+drush                 [ ]     Bash completion support for Drush
+fabric                [ ]     Bash completion support for Fabric (http://fabfile.org/)
+fastfile              [ ]     Bash completion support for fastfile plugin commands
+fuzzy-completion      [ ]     Fuzzy tab completion for bash for more details see "https://github.com/mgalgs/fuzzy_bash_completion" 
+gem                   [ ]     Bash completion support for gem
+gh                    [ ]     This script complements the completion script that ships with git
+git_flow_avh          [ ]     Bash completion support for [git-flow (AVH Edition)](http://github.com/petervanderdoes/gitflow)
+git_flow              [ ]     Bash completion support for [git-flow](http://github.com/nvie/gitflow)
+go                    [ ]     Bash completion fo fo tool
+gradle                [ ]     Bash completion support for gradle command
+grunt                 [ ]     Bash completion support for grunt (https://github.com/gruntjs/grunt/blob/master)
+gulp                  [ ]     Bash completion support for gulp (https://github.com/gruntjs/grunt/blob/master)
+has                   [ ]     Bash completion for has plugin
+hints                 [x]     Bash completion support for devhints function found in $OSH/lib/functions.sh
+homesick              [ ]     Bash completion support for homesick
+hub                   [ ]     This script complements the completion script that ships with git
+jboss7                [ ]     Completions for JBoss Application Server 7 (EAP 6)
+jungle                [ ]     
+kontena               [ ]     
+kubectl               [ ]     Kubernetes CLI completion
+makefile              [ ]     Add completion for Makefile
+maven                 [ ]     Bash Maven completion
+npm                   [ ]     npm (Node Package Manager) completion
+nvm                   [ ]     nvm (Node Version Manager) completion
+oh-my-bash            [x]     oh-my-bash command completion
+packer                [ ]     Packer (http://www.packer.io) bash completion
+pip3                  [x]     pip3 bash completion start
+pip                   [x]     pip bash completion start
+prm                   [ ]     Bash completion for prm plugin
+projects              [ ]     Bash completion for project plugin
+rake                  [ ]     Bash completion support for Rake, Ruby Make
+reference             [x]     Bash completion support for reference function found in .oh-my-bash/lib/composure.sh
+salt                  [ ]     
+sdkman                [ ]     
+ssh                   [ ]     Bash completion support for ssh
+svn                   [ ]     Programmable completion for the Subversion svn command under bash
+system                [ ]     Loads the system Bash completion modules
+terraform             [ ]     Bash Terraform completion
+test_kitchen          [ ]     bash completion for kitchen command
+tmux                  [ ]     tmux completion
+todo                  [ ]     
+vagrant               [ ]     Bash completion support for vagrant
+vault                 [ ]     Vault-bash-completion
+virtualbox            [ ]     Virtual-box bash-completion

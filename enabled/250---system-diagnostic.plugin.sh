@@ -1,0 +1,1 @@
+../plugins/system-diagnostic.plugin.sh

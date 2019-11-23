@@ -1,0 +1,1 @@
+../plugins/bash-insulter.plugin.sh

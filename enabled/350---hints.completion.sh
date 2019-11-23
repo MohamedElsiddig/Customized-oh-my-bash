@@ -1,0 +1,1 @@
+../completion/hints.completion.sh

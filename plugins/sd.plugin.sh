@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+cite about-plugin
+about-plugin 'sd (shift directory) allows you to quickly change directories (wd clone for bash) '
+_sdd() {
+  local sdd="$HOME/.sdd"
+  [[ -d "$sdd" ]] || mkdir "$sdd"
+
+  echo "$sdd"
+}
+
+_shift_points() {
+  ls "$(_sdd)"
+}
+
+_point_from_path() {
+  echo "$1" | cut -d/ -f1
+}
+
+_path_without_point() {
+  if [[ "$1" =~ "/" ]]; then
+    echo "$1" | cut -d/ -f2-
+  fi
+}
+
+_leading_folders_from_path() {
+  if [[ "$1" =~ "/" ]]; then
+    echo "$1" | rev | cut -d/ -f2- | rev | sed 's|$|/|'
+  fi
+}
+
+_path_without_leading_folders() {
+  echo "$1" | rev | cut -d/ -f1 | rev
+}
+
+_point_destination() {
+  local sdd="$(_sdd)"
+  local point="$1"
+
+  echo "$(readlink $sdd/$point)"
+}
+
+_sd_autocomplete() {
+  local current="${COMP_WORDS[COMP_CWORD]}"
+
+  if [[ "$current" =~ "/" ]]; then
+    local point="$(_point_from_path "$current")"
+    local subpath="$(_path_without_point "$current")"
+    local destination="$(_point_destination "$point")"
+    local subfolders="$(_leading_folders_from_path "$subpath")"
+    local completions="$(ls -F "$destination/$subfolders" | sed 's|@$||')"
+    current="$(_path_without_leading_folders "$subpath")"
+
+    COMPREPLY=($(compgen -W "$completions" -P "$point/$subfolders" -- $current))
+  else
+    COMPREPLY=($(compgen -W "$(_shift_points)" -- $current))
+  fi
+}
+
+sd() {
+  local sdd="$(_sdd)"
+
+  local point_name="$2"
+  local point_path="$sdd/$point_name"
+  local point_destination="$(readlink $point_path)"
+  [[ -z "$point_destination" ]] && point_destination="no point destination"
+
+  case "x$1" in
+  xadd)
+    if ln -s "$PWD" "$point_path" &> /dev/null; then
+      echo "Added shift point '$point_name' ($PWD)"
+      return 0
+    else
+      echo "Error adding shift point '$point_name' ($PWD)"
+      return 1
+    fi
+    ;;
+  xrm)
+    if rm "$point_path" &> /dev/null; then
+      echo "Removed shift point '$point_name' ($point_destination)"
+      return 0
+    else
+      echo "Error removing shift point '$point_name' ($point_destination)"
+      return 1
+    fi
+    ;;
+  xls)
+    local point_list=$(command ls -l "$sdd" | grep -v '^total' | grep -Eo '\b\w+\b ->.*' | awk -F' -> ' '{printf "\033[95m%14s\033[0m \033[92m%s\033[0m\n", $1, $2}')
+    echo "$point_list" | grep "$2"
+    return 0
+    ;;
+  x-h | x--help | x)
+    echo "Usage: sd [command] <point_name>"
+    echo "Commands:"
+    echo "  add <point_name>    Adds the current working directory to your shift points"
+    echo "  rm <point_name>     Removes the named point from your shift points"
+    echo "  ls                  Prints all shift points"
+    echo "  ls <point_name>     Prints all shift points matching the specified name"
+    echo "  -                   Shifts to previous working directory"
+    echo "  -h, --help          Prints this lovely message"
+    return 0
+    ;;
+  x-)
+    cd -
+    return $?
+    ;;
+  x-*)
+    echo "Unknown option: '$1'"
+    return 1
+    ;;
+  esac
+
+  # if we get here, we're shifting
+  local requested_point="$(_point_from_path "$1")"
+  local subpath="$(_path_without_point "$1")"
+
+  point_path="$sdd/$requested_point"
+
+  if [[ ! -L "$point_path" ]]; then
+    echo "Can't shift to point '$requested_point' because it doesn't exist."
+    return 1
+  fi
+
+  local requested_destination="$(readlink $point_path)/$subpath"
+
+  cd "$requested_destination"
+  return $?
+}
+
+complete -o nospace -F _sd_autocomplete sd

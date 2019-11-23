@@ -1,0 +1,1 @@
+../plugins/web-search.plugin.sh

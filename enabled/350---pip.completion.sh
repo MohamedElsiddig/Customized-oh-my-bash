@@ -1,0 +1,1 @@
+../completion/pip.completion.sh
