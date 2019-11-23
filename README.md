@@ -9,7 +9,7 @@ I have edited the custom bashrc and disabled the { plugin | completions | aliase
 
 ________________________________________________________________
 
-* Added some of my collected function from bash_function to **[ functions.sh ]** which are :
+* Added some of my collected function from bash_function (https://github.com/MohamedElsiddig/MyDotFiles) to **[ functions.sh ]** which are :
 
 1. weather 
 2. devhints 
