@@ -42,7 +42,7 @@ ________________________________________________________________
 * Added completion for **bpkg** [which is a lightweight bash package manager. and it takes care of fetching the shell scripts, installing them appropriately, setting the execution permission and more.] 
 * Edited Fasd plugin to be complete command 
 * Replacd Progress plugin with this one [https://github.com/edouard-lopez/progress-bar.sh]
-* Added **( Systemd | fzf-marks | sd [wd clone for bash] | bash-insulter | repeat-history | enhanced-cd | q-registers | forgit | prm | fkill-cli | pkgsearch | bash-autopairs | any-bash  | ssh-connect | dirhistory | bash-navigator | zsh-cd-clone )** plugins
+* Added **( Systemd | fzf-marks | sd [wd clone for bash] | bash-insulter | repeat-history | enhanced-cd | q-registers | forgit | prm | fkill-cli | pkgsearch | bash-autopairs | any-bash  | ssh-connect | dirhistory | bash-navigator | zsh-cd-clone | cd-reminder )** plugins
 * Added **( fuzzy-completion | prm )** completion
 * Added **( git-open | git-switch )** functions to git plugin 
 
