@@ -246,7 +246,7 @@ fi;
             fi;
         fi;
     fi;
-    local done_symbol="↪";
+    local done_symbol="â†ª";
     if [[ "$TERM" == "cygwin" ]]; then
         done_symbol="->";
     fi;
@@ -265,7 +265,7 @@ function timing_preexec () {
         cmdstart="$(date '+%s')";
         return;
     fi;
-    local start_symbol="↩";
+    local start_symbol="â†©";
     if [[ "$TERM" == "cygwin" ]]; then
         start_symbol="<-";
     fi;
