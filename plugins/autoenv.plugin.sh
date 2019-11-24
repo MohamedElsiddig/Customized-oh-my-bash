@@ -2,7 +2,8 @@ AUTOENV_AUTH_FILE="${AUTOENV_AUTH_FILE:-$HOME/.autoenv_authorized}"
 AUTOENV_ENV_FILENAME="${AUTOENV_ENV_FILENAME:-.env}"
 AUTOENV_ENV_LEAVE_FILENAME="${AUTOENV_ENV_LEAVE_FILENAME:-.env.leave}"
 # AUTOENV_ENABLE_LEAVE
-
+cite about-plugin
+about-plugin 'Directory-based environments'
 autoenv_init() {
 
 	if [ -n "$AUTOENV_ENABLE_LEAVE" ]; then
