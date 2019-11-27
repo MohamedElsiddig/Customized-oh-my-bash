@@ -26,34 +26,32 @@ function per-directory-history-toggle-history() {
 }
 
 
-function per-dir_bash_history()
-{
-#    #if this directory is writable then write to directory-based history file
-#    #otherwise write history in the usual home-based history file                    
-#    tmpDir=$PWD
-#    #echo "#"`date '+%s'` >> $HISTFILE
-#    #echo $USER' has exited '$PWD' for '$@ >> $HISTFILE
-    #cd "$@" # do actual cd
-    if [ -w $PWD ]; then export HISTFILE="$PWD/.dir_bash_history"; touch $HISTFILE; chmod --silent 777 $HISTFILE;
-    else export HISTFILE="$HOME/.bash_history";
-    fi
-#    #echo "#"`date '+%s'` >> $HISTFILE
-#    #echo $USER' has entered '$PWD' from '$OLDPWD >> $HISTFILE
+#function per-dir_bash_history()
+#{
+##    #if this directory is writable then write to directory-based history file
+##    #otherwise write history in the usual home-based history file                    
+##    tmpDir=$PWD
+##    #echo "#"`date '+%s'` >> $HISTFILE
+##    #echo $USER' has exited '$PWD' for '$@ >> $HISTFILE
+#    #cd "$@" # do actual cd
+#    if [ -w $PWD ]; then export HISTFILE="$PWD/.dir_bash_history"; touch $HISTFILE; chmod --silent 777 $HISTFILE;
+#    else export HISTFILE="$HOME/.bash_history";
+#    fi
+##    #echo "#"`date '+%s'` >> $HISTFILE
+##    #echo $USER' has entered '$PWD' from '$OLDPWD >> $HISTFILE
 
-}
+#}
 #alias cd="per-dir_bash_history"
 #initial shell opened                                                                                     
 
 #timestamp all history entries                                                                            
                             
 function _per-directory-history-set-directory-history() {
-  if [[ $_per_directory_history_is_global == true ]]; then
-#    local original_histsize=$HISTSIZE
-#    HISTSIZE=0
-#    HISTSIZE=$original_histsize
- per-dir_bash_history
- export PROMPT_COMMAND="per-dir_bash_history;history -a; history -c; history -r; $PROMPT_COMMAND" > /dev/null 2>&1
-  fi
+  #if [[ $_per_directory_history_is_global == true ]]; then
+     if [[ -w $PWD ]]; then export HISTFILE="$PWD/.dir_bash_history"; touch $HISTFILE; chmod --silent 777 $HISTFILE;
+    else export HISTFILE="$HOME/.bash_history";
+    fi
+  #fi
   _per_directory_history_is_global=false
 }
 function _per-directory-history-set-global-history() {
@@ -68,9 +66,10 @@ function _per-directory-history-set-global-history() {
   fi
   _per_directory_history_is_global=true
 }
-
+CHPWD_COMMAND="${CHPWD_COMMAND:+$CHPWD_COMMAND;}_per-directory-history-set-directory-history"
 ## Save the history after each command finishes                                                           
-## (and keep any existing PROMPT_COMMAND settings)                                                        
+## (and keep any existing PROMPT_COMMAND settings)                   
+export PROMPT_COMMAND="history -a; history -c; history -r;$PROMPT_COMMAND"                                      
 #export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 bind -x '"\C-g": "per-directory-history-toggle-history"'
 
