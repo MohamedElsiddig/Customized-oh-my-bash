@@ -1,1 +1,0 @@
-../plugins/bash-navigator.plugin.sh
