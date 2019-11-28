@@ -117,6 +117,7 @@ _polyglot_has_colors() {
       if command -v tput > /dev/null 2>&1; then
         case ${POLYGLOT_UNAME:=$(uname -s)} in
           FreeBSD|DragonFly) POLYGLOT_TERM_COLORS=$(tput Co) ;;
+          UWIN*) POLYGLOT_TERM_COLORS=$(tput cols) ;;
           *) POLYGLOT_TERM_COLORS=$(tput colors) ;;
         esac
       else
@@ -349,12 +350,22 @@ _polyglot_is_pdksh() {
 }
 
 ###########################################################
-# Test to see if the currect shell is dtksh (Desktop Korn
+# Test to see if the current shell is dtksh (Desktop Korn
 # Shell).
 ###########################################################
 _polyglot_is_dtksh() {
   case $0 in
     *dtksh) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+###########################################################
+# Test to see if sh is really dash
+###########################################################
+_polyglot_sh_is_dash() {
+  case $(ls -l "$(command -v "$0")") in
+    *dash*) return 0 ;;
     *) return 1 ;;
   esac
 }
@@ -457,7 +468,7 @@ elif [ "$BASH_VERSION" ]; then
         PS1+="\[\e[01;32m\]\u$(echo -n "$POLYGLOT_HOSTNAME_STRING")\[\e[0m\] "
         case $BASH_VERSION in
           # bash, before v4.0, did not have $PROMPT_DIRTRIM
-          1\.*|2\.*|3\.*)
+          1.*|2.*|3.*)
             PS1+="\[\e[01;34m\]\$(_polyglot_prompt_dirtrim "\$POLYGLOT_PROMPT_DIRTRIM")\[\e[0m\]"
             ;;
           *) PS1+="\[\e[01;34m\]\w\[\e[0m\]" ;;
@@ -467,7 +478,7 @@ elif [ "$BASH_VERSION" ]; then
         PS1="\$(_polyglot_exit_status \$?)"
         PS1+="\u$(echo -n "$POLYGLOT_HOSTNAME_STRING") "
         case $BASH_VERSION in
-          1\.*|2\.*|3\.*)
+          1.*|2.*|3.*)
            PS1="\$(_polyglot_prompt_dirtrim "\$POLYGLOT_PROMPT_DIRTRIM")"
            ;;
           *) PS1+="\w" ;;
@@ -479,7 +490,7 @@ elif [ "$BASH_VERSION" ]; then
         PS1="\[\e[01;31m\]\$(_polyglot_exit_status \$?)\[\e[0m\]"
         PS1+="\[\e[7m\]\u@\h\[\e[0m\] "
         case $BASH_VERSION in
-          1\.*|2\.*|3\.*)
+          1.*|2.*|3.*)
             PS1+="\[\e[01;34m\]\$(_polyglot_prompt_dirtrim "\$POLYGLOT_PROMPT_DIRTRIM")\[\e[0m\]"
             ;;
           *) PS1+="\[\e[01;34m\]\w\[\e[0m\]" ;;
@@ -489,7 +500,7 @@ elif [ "$BASH_VERSION" ]; then
         PS1="\$(_polyglot_exit_status \$?)"
         PS1+="\[\e[7m\]\u@\h\[\e[0m\] "
         case $BASH_VERSION in
-          1\.*|2\.*|3\.*)
+          1.*|2.*|3.*)
             PS1+="\$(_polyglot_prompt_dirtrim "\$POLYGLOT_PROMPT_DIRTRIM")"
             ;;
           *) PS1+="\w" ;;
@@ -613,7 +624,8 @@ elif [ "$KSH_VERSION" ] || _polyglot_is_dtksh || [ "$ZSH_VERSION" ] \
 # pdksh, dash, busybox ash, and zsh in sh emulation mode
 ####################################################################
 
-elif _polyglot_is_pdksh || [ "$0" = 'dash' ] || _polyglot_is_busybox; then
+elif _polyglot_is_pdksh || [ "$0" = 'dash' ] || _polyglot_is_busybox \
+  || _polyglot_sh_is_dash; then
 
   # Only display the $HOSTNAME for an ssh connection
   if _polyglot_is_ssh || _polyglot_is_superuser; then
@@ -694,6 +706,6 @@ fi
 
 # Clean up environment
 unset -f _polyglot_is_ssh _polyglot_basename _polyglot_is_busybox \
-  _polyglot_is_dtksh _polyglot_is_pdksh
+  _polyglot_is_dtksh _polyglot_is_pdksh _polyglot_sh_is_dash
 
 # vim: ts=2:et:sts=2:sw=2
