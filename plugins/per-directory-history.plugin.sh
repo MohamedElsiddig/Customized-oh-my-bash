@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # =============================================================================
 # Per directory history for Bash
+cite about-plugin
+about-plugin 'An implementation of per directory history for bash'
 # =============================================================================
 # Copyright (c) 2017, Cristian Martinez (martinec)
 # =============================================================================
