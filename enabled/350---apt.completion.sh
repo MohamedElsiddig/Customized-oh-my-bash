@@ -1,1 +1,0 @@
-../completion/apt.completion.sh

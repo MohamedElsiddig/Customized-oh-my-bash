@@ -1,1 +1,0 @@
-../plugins/thefuck.plugin.sh

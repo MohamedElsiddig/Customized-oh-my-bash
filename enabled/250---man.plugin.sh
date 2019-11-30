@@ -1,1 +1,0 @@
-../plugins/man.plugin.sh

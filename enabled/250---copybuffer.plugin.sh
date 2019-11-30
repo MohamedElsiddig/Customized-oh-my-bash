@@ -1,1 +1,0 @@
-../plugins/copybuffer.plugin.sh

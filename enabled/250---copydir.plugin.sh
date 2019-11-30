@@ -1,1 +1,0 @@
-../plugins/copydir.plugin.sh
