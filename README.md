@@ -7,7 +7,35 @@ I have used some of bash-it framework functions and utilties (https://github.com
 the completions directory changed from plural {completions} to {completion} as singular 
 I have edited the custom bashrc and disabled the { plugin | completions | aliases } arrays
 
+---------------------------------------------------------------
+## Getting Started
+
+### Prerequisites
+
+__Disclaimer:__ _Oh My Bash works best on macOS and Linux._
+
+* Unix-like operating system (macOS or Linux)
+* `curl` or `wget` should be installed
+* `git` should be installed
+
+### Basic Installation
+
+Oh My Bash is installed by running one of the following commands in your terminal. You can install this via the command-line with either `curl` or `wget`.
+
+#### via curl
+
+```shell
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/MohamedElsiddig/Customized-oh-my-bash/master/tools/install.sh)"
+```
+
+#### via wget
+
+```shell
+sh -c "$(wget https://raw.githubusercontent.com/MohamedElsiddig/Customized-oh-my-bash/master/tools/install.sh -O -)"
+```
 ________________________________________________________________
+
+### What is different from the original
 
 * Added some of my collected function from bash_function (https://github.com/MohamedElsiddig/MyDotFiles) to **[ functions.sh ]** which are :
 
