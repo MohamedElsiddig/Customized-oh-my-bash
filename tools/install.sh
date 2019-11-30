@@ -84,7 +84,20 @@ main() {
 export OSH=$OSH
   " $HOME/.bashrc > $HOME/.bashrc-ombtemp
   mv -f $HOME/.bashrc-ombtemp $HOME/.bashrc
+  sleep 2
+	echo -e "\033[0;32mEnabling reasonable defaults\033[0m"
+   # Load dependencies for enabling components
+	source "$OSH/lib/composure.sh"
+	source "$OSH/lib/utilities.sh"
+	cite _about _param _example _group _author _version
+	source "$OSH/lib/helpers.sh"
 
+  _enable-completion oh-my-bash
+  _enable-completion reference
+  _enable-plugin base
+  _enable-plugin alias-completion
+  _enable-alias general
+  _enable-alias ls
   # MOTD message :)
   printf '%s' "$GREEN"
   printf '%s\n' '         __                          __               __  '
@@ -93,6 +106,13 @@ export OSH=$OSH
   printf '%s\n' '/ /_/ / / / /  / / / / / / /_/ /  / /_/ / /_/ (__  ) / / /'
   printf '%s\n' '\____/_/ /_/  /_/ /_/ /_/\__, /  /_.___/\__,_/____/_/ /_/ '
   printf '%s\n' '                        /____/                            .... is now installed!'
+  printf '%s\n' ' To show the available aliases/completions/plugins, type one of the following:'
+  printf '%s\n' ' oh-my-bash show aliases'
+  printf '%s\n' ' oh-my-bash show completions'
+  printf '%s\n' ' oh-my-bash show plugins'
+  echo ""
+  printf '%s\n' ' To avoid issues and to keep your shell lean, please enable only features you really want to use.'
+  printf '%s\n' ' Enabling everything can lead to issues.'
   printf "%s\n" "Please look over the ~/.bashrc file to select plugins, themes, and options"
   printf "${BLUE}${BOLD}%s${NORMAL}\n" "To keep up on the latest news and updates, follow us on GitHub: hhttps://github.com/MohamedElsiddig/Customized-oh-my-bash.git"
   exec bash; source $HOME/.bashrc
