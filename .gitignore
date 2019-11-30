@@ -20,3 +20,4 @@ enabled/*
 *.swp
 *.disabled
 .idea/.dir_bash_history
+.cd-reminder
