@@ -6,6 +6,9 @@
 !/custom/example.sh
 /custom/
 
+# enabled Directory
+/enabled/
+
 # temp files directories
 /cache/
 /log/
