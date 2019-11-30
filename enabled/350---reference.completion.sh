@@ -1,1 +1,0 @@
-../completion/reference.completion.sh

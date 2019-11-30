@@ -1,1 +1,0 @@
-../completion/oh-my-bash.completion.sh

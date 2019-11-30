@@ -1,1 +1,0 @@
-../completion/pip3.completion.sh
