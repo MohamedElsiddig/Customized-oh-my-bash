@@ -7,8 +7,8 @@
 /custom/
 
 # enabled Directory
-enabled/*
-*/enabled/*
+#enabled/*
+#*/enabled/*
 
 # temp files directories
 /cache/
