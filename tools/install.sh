@@ -92,12 +92,12 @@ export OSH=$OSH
 	cite _about _param _example _group _author _version
 	source "$OSH/lib/helpers.sh"
 
-  _enable-completion oh-my-bash ||
-  _enable-completion reference ||
-  _enable-plugin base ||
-  _enable-plugin alias-completion ||
-  _enable-alias general ||
-  _enable-alias ls
+  oh-my-bash enable completion oh-my-bash ||
+  oh-my-bash enable completion reference ||
+  oh-my-bash enable plugin base ||
+  oh-my-bash enable plugin alias-completion ||
+  oh-my-bash enable alias general ||
+  oh-my-bash enable alias ls
   # MOTD message :)
   printf '%s' "$GREEN"
   printf '%s\n' '         __                          __               __  '
