@@ -88,18 +88,18 @@ export OSH=$OSH
   echo ""
 	echo -e "\033[0;32mEnabling reasonable defaults\033[0m"
    # Load dependencies for enabling components
-	(
+	
   source "$OSH/lib/composure.sh"
 	source "$OSH/lib/utilities.sh"
 	cite _about _param _example _group _author _version
 	source "$OSH/lib/helpers.sh"
 
-  oh-my-bash enable completion oh-my-bash &&
-  oh-my-bash enable completion reference &&
-  oh-my-bash enable plugin base &&
-  oh-my-bash enable plugin alias-completion &&
-  oh-my-bash enable alias general &&
-  oh-my-bash enable alias ls )
+  oh-my-bash enable completion oh-my-bash &
+  oh-my-bash enable completion reference &
+  oh-my-bash enable plugin base &
+  oh-my-bash enable plugin alias-completion &
+  oh-my-bash enable alias general &
+  oh-my-bash enable alias ls 
   # MOTD message :)
   printf '%s' "$GREEN"
   printf '%s\n' '         __                          __               __  '
