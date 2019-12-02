@@ -108,9 +108,9 @@ export OSH=$OSH
       oh-my-bash enable plugin $load_plugins
   done
 
-  for load_aliase in ${to_be_load_aliases[@]}
+  for load_aliases in ${to_be_load_aliases[@]}
     do
-      oh-my-bash enable alias $load_aliase  
+      oh-my-bash enable alias $load_aliases  
   done
 
   for load_completions in ${to_be_load_completions[@]}
