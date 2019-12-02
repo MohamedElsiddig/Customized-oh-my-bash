@@ -86,20 +86,38 @@ export OSH=$OSH
   mv -f $HOME/.bashrc-ombtemp $HOME/.bashrc
   sleep 2
   echo ""
+
 	echo -e "\033[0;32mEnabling reasonable defaults\033[0m"
-   # Load dependencies for enabling components
+  # Load dependencies for enabling components
 	
   source "$OSH/lib/composure.sh"
 	source "$OSH/lib/utilities.sh"
 	cite _about _param _example _group _author _version
 	source "$OSH/lib/helpers.sh"
 
-  # oh-my-bash enable plugin base 
-  # oh-my-bash enable completion oh-my-bash 
-  # oh-my-bash enable completion reference 
-  # oh-my-bash enable plugin alias-completion 
-  # oh-my-bash enable alias general 
-  # oh-my-bash enable alias ls 
+  to_be_load_plugins=(base alias-completion)
+
+  to_be_load_completions=(base hints oh-my-bash reference)
+
+  to_be_load_aliases=(general ls)
+
+  source $OSH/lib/*
+
+  for load_plugins in ${to_be_load_plugins[@]}
+    do
+      oh-my-bash enable plugin $load_plugins
+  done
+
+  for load_aliase in ${to_be_load_aliases[@]}
+    do
+      oh-my-bash enable alias $load_aliase  
+  done
+
+  for load_completions in ${to_be_load_completions[@]}
+    do
+      oh-my-bash enable completion $load_completions
+  done
+  
   # MOTD message :)
   printf '%s' "$GREEN"
   printf '%s\n' '         __                          __               __  '
