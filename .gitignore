@@ -4,7 +4,7 @@
 !/custom/plugins/example/
 !/custom/themes/example/
 !/custom/example.sh
-/custom/
+#/custom/
 
 # enabled Directory
 enabled/*
