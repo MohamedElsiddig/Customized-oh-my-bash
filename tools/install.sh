@@ -85,6 +85,7 @@ export OSH=$OSH
   " $HOME/.bashrc > $HOME/.bashrc-ombtemp
   mv -f $HOME/.bashrc-ombtemp $HOME/.bashrc
   sleep 2
+  echo ""
 	echo -e "\033[0;32mEnabling reasonable defaults\033[0m"
    # Load dependencies for enabling components
 	source "$OSH/lib/composure.sh"
