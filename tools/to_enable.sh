@@ -1,5 +1,5 @@
 #!/bin/bash
-    export OSH=".oh-my-bash"
+    OSH="$HOME/.oh-my-bash"
     source "$OSH/lib/composure.sh"
     source "$OSH/lib/utilities.sh"
 	cite _about _param _example _group _author _version
