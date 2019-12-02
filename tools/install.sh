@@ -89,7 +89,7 @@ export OSH=$OSH
 
 	echo -e "\033[0;32mEnabling reasonable defaults\033[0m"
   # Load dependencies for enabling components
-	env BASH=$OSH sh $OSH/tools/to_enable.sh
+	env BASH=$OSH bash $OSH/tools/to_enable.sh
   
   # MOTD message :)
   printf '%s' "$GREEN"
