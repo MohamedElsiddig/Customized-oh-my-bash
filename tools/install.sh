@@ -97,11 +97,9 @@ export OSH=$OSH
 
   to_be_load_plugins=(base alias-completion)
 
-  to_be_load_completions=(base hints oh-my-bash reference)
-
   to_be_load_aliases=(general ls)
-
-  source $OSH/lib/*
+  
+  to_be_load_completions=(base hints oh-my-bash reference)
 
   for load_plugins in ${to_be_load_plugins[@]}
     do
