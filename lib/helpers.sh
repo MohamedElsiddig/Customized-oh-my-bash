@@ -389,7 +389,7 @@ _enable-thing ()
     fi
 
     if [[ -n "OSH_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE" ]]; then
-        exec ${0/-/}
+       # exec ${0/-/}
     fi
 
    
