@@ -6,20 +6,20 @@ forgit::warn() { printf "%b[Warn]%b %s\n" '\e[0;33m' '\e[0m' "$@" >&2; }
 forgit::info() { printf "%b[Info]%b %s\n" '\e[0;32m' '\e[0m' "$@" >&2; }
 forgit::inside_work_tree() { git rev-parse --is-inside-work-tree >/dev/null; }
 
-# https://github.com/so-fancy/diff-so-fancy
-hash diff-so-fancy &>/dev/null && forgit_fancy='|diff-so-fancy'
 # https://github.com/wfxr/emoji-cli
 hash emojify &>/dev/null && forgit_emojify='|emojify'
+
+forgit_pager=$(git config core.pager || echo 'cat')
 
 # git commit viewer
 forgit::log() {
     forgit::inside_work_tree || return 1
     local cmd opts
-    cmd="echo {} |grep -Eo '[a-f0-9]+' |head -1 |xargs -I% git show --color=always % $* $forgit_emojify $forgit_fancy"
+    cmd="echo {} |grep -Eo '[a-f0-9]+' |head -1 |xargs -I% git show --color=always % $* | $forgit_pager"
     opts="
         $FORGIT_FZF_DEFAULT_OPTS
         +s +m --tiebreak=index --preview=\"$cmd\"
-        --bind=\"enter:execute($cmd |LESS='-R' less)\"
+        --bind=\"enter:execute($cmd | LESS='-R' less)\"
         --bind=\"ctrl-y:execute-silent(echo {} |grep -Eo '[a-f0-9]+' | head -1 | tr -d '\n' |${FORGIT_COPY_CMD:-pbcopy})\"
         $FORGIT_LOG_FZF_OPTS
     "
@@ -30,17 +30,24 @@ forgit::log() {
 # git diff viewer
 forgit::diff() {
     forgit::inside_work_tree || return 1
-    local cmd files opts
-    cmd="git diff --color=always -- {} $forgit_emojify $forgit_fancy"
-    files="$*"
-    [[ $# -eq 0 ]] && files=$(git rev-parse --show-toplevel)
+    local cmd files opts commit repo
+    [[ $# -ne 0 ]] && {
+        if git rev-parse "$1" -- &>/dev/null ; then
+            commit="$1" && files=("${@:2}")
+        else
+            files=("$@")
+        fi
+    }
 
+    repo="$(git rev-parse --show-toplevel)"
+    target="\$(echo {} | sed 's/.*]  //')"
+    cmd="git diff --color=always $commit -- $repo/$target | $forgit_pager"
     opts="
         $FORGIT_FZF_DEFAULT_OPTS
         +m -0 --preview=\"$cmd\" --bind=\"enter:execute($cmd |LESS='-R' less)\"
         $FORGIT_DIFF_FZF_OPTS
     "
-    git ls-files --modified "$files" |
+    eval "git diff --name-status $commit -- ${files[*]} | sed 's/^\(.\)[[:space:]]\+\(.*\)$/[\1]  \2/'" |
         FZF_DEFAULT_OPTS="$opts" fzf
 }
 
@@ -55,15 +62,16 @@ forgit::add() {
     opts="
         $FORGIT_FZF_DEFAULT_OPTS
         -0 -m --nth 2..,..
-        --preview=\"git diff --color=always -- {-1} $forgit_emojify $forgit_fancy\"
+        --preview=\"git diff --color=always -- {-1} | $forgit_pager\"
         $FORGIT_ADD_FZF_OPTS
     "
-    files=$(git -c color.status=always status --short |
+    files=$(git -c color.status=always -c status.relativePaths=true status --short |
         grep -F -e "$changed" -e "$unmerged" -e "$untracked" |
-        awk '{printf "[%10s]  ", $1; $1=""; print $0}' |
-        FZF_DEFAULT_OPTS="$opts" fzf | cut -d] -f2 |
+        sed 's/^\(..[^[:space:]]*\) \(.*\)$/[\1]  \2/' |
+        FZF_DEFAULT_OPTS="$opts" fzf |
+        sed 's/^.*]  //' |
         sed 's/.* -> //') # for rename case
-    [[ -n "$files" ]] && echo "$files" |xargs -I{} git add {} && git status --short && return
+    [[ -n "$files" ]] && echo "$files"| tr '\n' '\0' |xargs -0 -I% git add % && git status --short && return
     echo 'Nothing to add.'
 }
 
@@ -71,14 +79,14 @@ forgit::add() {
 forgit::reset::head() {
     forgit::inside_work_tree || return 1
     local cmd files opts
-    cmd="git diff --cached --color=always -- {} $forgit_emojify $forgit_fancy"
+    cmd="git diff --cached --color=always -- {} | $forgit_pager "
     opts="
         $FORGIT_FZF_DEFAULT_OPTS
         -m -0 --preview=\"$cmd\"
         $FORGIT_RESET_HEAD_FZF_OPTS
     "
-    files="$(git diff --cached --name-only | FZF_DEFAULT_OPTS="$opts" fzf)"
-    [[ -n "$files" ]] && echo "$files" |xargs -I{} git reset HEAD {} && git status --short && return
+    files="$(git diff --cached --name-only --relative | FZF_DEFAULT_OPTS="$opts" fzf)"
+    [[ -n "$files" ]] && echo "$files" | tr '\n' '\0' | xargs -0 -I% git reset -q HEAD % && git status --short && return
     echo 'Nothing to unstage.'
 }
 
@@ -86,14 +94,14 @@ forgit::reset::head() {
 forgit::restore() {
     forgit::inside_work_tree || return 1
     local cmd files opts
-    cmd="git diff --color=always -- {} $forgit_emojify $forgit_fancy"
+    cmd="git diff --color=always -- {} | $forgit_pager"
     opts="
         $FORGIT_FZF_DEFAULT_OPTS
         -m -0 --preview=\"$cmd\"
         $FORGIT_CHECKOUT_FZF_OPTS
     "
     files="$(git ls-files --modified "$(git rev-parse --show-toplevel)"| FZF_DEFAULT_OPTS="$opts" fzf)"
-    [[ -n "$files" ]] && echo "$files" |xargs -I{} git checkout {} && git status --short && return
+    [[ -n "$files" ]] && echo "$files" | tr '\n' '\0' | xargs -0 -I% git checkout % && git status --short && return
     echo 'Nothing to restore.'
 }
 
@@ -101,10 +109,10 @@ forgit::restore() {
 forgit::stash::show() {
     forgit::inside_work_tree || return 1
     local cmd opts
-    cmd="git stash show \$(echo {}| cut -d: -f1) --color=always --ext-diff $forgit_fancy"
+    cmd="git stash show \$(echo {}| cut -d: -f1) --color=always --ext-diff | $forgit_pager"
     opts="
         $FORGIT_FZF_DEFAULT_OPTS
-        +s +m -0 --tiebreak=index --preview=\"$cmd\" --bind=\"enter:execute($cmd |LESS='-R' less)\"
+        +s +m -0 --tiebreak=index --preview=\"$cmd\" --bind=\"enter:execute($cmd | LESS='-R' less)\"
         $FORGIT_STASH_FZF_OPTS
     "
     git stash list | FZF_DEFAULT_OPTS="$opts" fzf
@@ -120,8 +128,8 @@ forgit::clean() {
         $FORGIT_CLEAN_FZF_OPTS
     "
     # Note: Postfix '/' in directory path should be removed. Otherwise the directory itself will not be removed.
-    files=$(git clean -xdfn "$@"| awk '{print $3}'| FZF_DEFAULT_OPTS="$opts" fzf |sed 's#/$##')
-    [[ -n "$files" ]] && echo "$files" |xargs -I% git clean -xdf % && return
+    files=$(git clean -xdfn "$@"| sed 's/^Would remove //' | FZF_DEFAULT_OPTS="$opts" fzf |sed 's#/$##')
+    [[ -n "$files" ]] && echo "$files" | tr '\n' '\0' | xargs -0 -I% git clean -xdf '%' && return
     echo 'Nothing to clean.'
 }
 
