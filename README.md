@@ -74,6 +74,7 @@ ________________________________________________________________
 * Added **( fuzzy-completion | prm )** completion
 * Added **( git-open | git-switch )** functions to git plugin 
 * Added autoload and chpwd to lib/
+* Added some docker plugins
 ________________________________________________________________
 
 * Added Auto Enabling for completions related to plugins if found and added this line to bashrc **The completion name must be the same of the plugin name**
