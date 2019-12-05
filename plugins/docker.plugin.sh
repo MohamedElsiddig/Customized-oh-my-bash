@@ -79,3 +79,13 @@ function docker-archive-content() {
     tar -xzOf $1 manifest.json | jq '[.[] | .RepoTags] | add'
   fi
 }
+
+function docker-attach()
+{
+  about 'shows running containers and attempt to attach it'
+  group 'docker'
+  example 'docker-attach'
+
+	docker exec -it $(docker ps -a 2>&1 | grep -i 'up' | fzf | awk '{print $1}') /bin/bash
+
+}
