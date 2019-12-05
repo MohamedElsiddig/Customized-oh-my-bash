@@ -86,6 +86,6 @@ function docker-attach()
   group 'docker'
   example 'docker-attach'
 
-	docker exec -it $(docker ps -a 2>&1 | grep -i 'up' | fzf | awk '{print $1}') /bin/bash
+	docker exec -it $(docker ps -a 2>&1 | grep -i 'up' |  fzf --height 40% --reverse --border | awk '{print $1}') /bin/bash
 
 }
