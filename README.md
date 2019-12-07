@@ -75,6 +75,7 @@ ________________________________________________________________
 * Added **( git-open | git-switch )** functions to git plugin 
 * Added autoload and chpwd to lib/
 * Added some docker plugins
+* Added $OSH/bin Which contains helpfull script and programs that can't be tuen into plugins and add it to the path using pathmunge function in lib/helpers
 ________________________________________________________________
 
 * Added Auto Enabling for completions related to plugins if found and added this line to bashrc **The completion name must be the same of the plugin name**
