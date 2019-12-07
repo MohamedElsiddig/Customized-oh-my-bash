@@ -206,6 +206,11 @@ circleci_cli_upgrade() {
 git_pull_all(){
 find . -maxdepth 3 -name .git -type d | rev | cut -c 6- | rev | xargs -I {} git -C {} pull
 }
+git_extract_all(){
+#extract all git urls from git repositories
+find . -maxdepth 4 -name config -type f | rev | cut -c 1- | rev | xargs  cat | grep -i 'url' | awk '{print $3}'
+
+}
 exec_fn os_upgrade
 exec_fn git_pull_all
 exec_fn snap_refresh
