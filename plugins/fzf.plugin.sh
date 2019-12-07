@@ -22,7 +22,7 @@ fe() {
 
   local IFS=$'\n'
   local files
-  files=($(fzf --query="$1" --multi --select-1 --exit-0))
+  files=($(fzf --reverse --border --query="$1" --multi --select-1 --exit-0))
   [[ -n "$files" ]] && ${EDITOR:-gedit} "${files[@]}"
 }
 
@@ -34,7 +34,7 @@ fcd() {
 
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
+                  -o -type d -print 2> /dev/null | fzf +m --reverse --border) &&
   cd "$dir"
 }
 
@@ -46,7 +46,7 @@ vf() {
   example "vf xml"
 
   local file
-  file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && vi "${file}" || return 1
+  file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m --reverse --border)" && vi "${file}" || return 1
 }
 
 fman() {
