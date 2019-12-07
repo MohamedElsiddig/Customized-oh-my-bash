@@ -555,3 +555,5 @@ then
     fi
   }
 fi
+# Adding $OSH/bin To bath
+pathmunge $OSH/bin after
