@@ -103,7 +103,7 @@ export OSH=$OSH
   printf '%s\n' ' To avoid issues and to keep your shell lean, please enable only features you really want to use.'
   printf '%s\n' ' Enabling everything can lead to issues.'
   printf "%s\n" "Please look over the ~/.bashrc file to select plugins, themes, and options"
-  printf "${BLUE}${BOLD}%s${NORMAL}\n" "To keep up on the latest news and updates, follow us on GitHub: hhttps://github.com/MohamedElsiddig/Customized-oh-my-bash.git"
+  printf "${BLUE}${BOLD}%s${NORMAL}\n" "To keep up on the latest news and updates, follow us on GitHub: https://github.com/MohamedElsiddig/Customized-oh-my-bash.git"
   exec bash; source $HOME/.bashrc
 }
 
