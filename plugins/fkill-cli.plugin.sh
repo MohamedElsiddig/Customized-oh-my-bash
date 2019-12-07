@@ -8,7 +8,7 @@ if [[ `which fzf` ]]
 	then
 		fuzzy_command=fzf
 	else
-	fuzzy_command=""
+		fuzzy_command=""
 fi
 if [[ ! -z $fuzzy_command ]]
 	then
