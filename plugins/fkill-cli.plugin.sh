@@ -29,7 +29,7 @@ if [[ ! -z $fuzzy_command ]]
 		fi
 		else
 		echo ""
-		echo -e ${echo_bold_red} ✘${echo_bold_yellow} You Dont have a fzf command in your path please download it${echo_normal}
+		echo -e ${echo_bold_red} ✘${echo_bold_yellow} You Dont have fzf command in your path please download it${echo_normal}
 		
 fi
 
