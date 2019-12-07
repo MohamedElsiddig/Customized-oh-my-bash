@@ -7,9 +7,6 @@ function fkill(){
 if [[ `which fzf` ]]
 	then
 		fuzzy_command=fzf
-elif [[ `which fzy` ]]
-	then
-		fuzzy_command=fzy
 	else
 	fuzzy_command=""
 fi
@@ -32,7 +29,7 @@ if [[ ! -z $fuzzy_command ]]
 		fi
 		else
 		echo ""
-		echo -e ${echo_bold_red} ✘${echo_bold_yellow} You Dont have a fuzzy finder command in your path please download one${echo_normal}
+		echo -e ${echo_bold_red} ✘${echo_bold_yellow} You Dont have a fzf command in your path please download it${echo_normal}
 		
 fi
 
