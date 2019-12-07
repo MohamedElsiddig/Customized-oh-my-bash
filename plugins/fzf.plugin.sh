@@ -49,6 +49,16 @@ vf() {
   file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m --reverse --border)" && vi "${file}" || return 1
 }
 
+#old fman function
+
+#fman() {
+#  about "Quickly display a man page using fzf"
+#  group "fzf"
+#  example "fman"
+
+#    man -k . | fzf --prompt='Man> ' | awk '{print $1}' | xargs -r man
+#}
+
 fman() {
 
 	about "Quickly display a man page using fzf"
