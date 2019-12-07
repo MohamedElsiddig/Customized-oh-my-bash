@@ -178,3 +178,8 @@ fi
 # Adding Support for other OSes
 [ -s /usr/bin/gloobus-preview ] && PREVIEW="gloobus-preview" || 
 [ -s /Applications/Preview.app ] && PREVIEW="/Applications/Preview.app" || PREVIEW="less"
+
+# Adding "$OSH/bin" to global path using pathmunge function
+# $OSH/bin contains usefull scripts and programs that's can't be turned into plugins
+pathmunge $OSH/bin after
+
