@@ -21,3 +21,4 @@ enabled/*
 *.disabled
 .idea/.dir_bash_history
 .cd-reminder
+.smart-commit-ignore
