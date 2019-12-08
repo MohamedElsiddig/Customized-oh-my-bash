@@ -8,7 +8,7 @@ if [[ $# -gt 1 ]]
 then
     size="$2"
 else
-    size=2000
+    size=20000
 fi
 
 OLDIFS=$IFS
@@ -34,7 +34,7 @@ done
 if [[ ${#outputArray[@]} -gt 0 ]]
 then
     #read -p "Enter the number of desired command: " input
-command=$(cat ~/.repeat-history |fzy)
+command=$(cat ~/.repeat-history |fzy --prompt='Search History: ')
 #command=$(cat ~/.repeat-history |fzf -e)
     #isNumber=$(echo "$input" | egrep '^[0-9]+$')
 
