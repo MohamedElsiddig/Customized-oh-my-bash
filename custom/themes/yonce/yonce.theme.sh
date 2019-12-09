@@ -79,7 +79,7 @@ SCM_THEME_PROMPT_SUFFIX=""
 
 # Git status prompts
 GIT_THEME_PROMPT_DIRTY="${bold_red}↥${normal}"
-GIT_THEME_PROMPT_CLEAN="${green}❀${normal}"
+GIT_THEME_PROMPT_CLEAN="${green} ❀${normal}"
 
 THEME_SHOW_LYRIC=${THEME_SHOW_LYRIC:-"true"}
 THEME_SHOW_SUDO=${THEME_SHOW_SUDO:-"true"}
