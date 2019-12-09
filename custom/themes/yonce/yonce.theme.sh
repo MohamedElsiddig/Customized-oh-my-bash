@@ -61,12 +61,12 @@ hello=" _          _   _
 ###############################################################################
 
 YONCE_ART_ENABLED=0
-YONCE_ARTWORK=$default
+YONCE_ARTWORK=$king
 
 # SCM prompts
 SCM_NONE_CHAR=""
 SCM_GIT_CHAR="${white} "
-SCM_GIT_BEHIND_CHAR="${red}↓${normal}"
+SCM_GIT_BEHIND_CHAR="${bold_red}↓${normal}"
 SCM_GIT_AHEAD_CHAR="${bold_green}↑${normal}"
 SCM_GIT_UNTRACKED_CHAR="⌀"
 SCM_GIT_UNSTAGED_CHAR="${bold_yellow}•${normal}"
@@ -79,7 +79,7 @@ SCM_THEME_PROMPT_SUFFIX=""
 
 # Git status prompts
 GIT_THEME_PROMPT_DIRTY="${bold_red}↥${normal}"
-GIT_THEME_PROMPT_CLEAN=" ${green}${normal}"
+GIT_THEME_PROMPT_CLEAN="${green}❀${normal}"
 
 THEME_SHOW_LYRIC=${THEME_SHOW_LYRIC:-"true"}
 THEME_SHOW_SUDO=${THEME_SHOW_SUDO:-"true"}
