@@ -146,7 +146,7 @@ _yonce_display_art() {
 
 _yonce_display_lyric() {
 	LYRICS=(
-		"I make all ladies crys"
+		"I make all ladies cries"
 		"Here is the king, it's me"
 		"What should I say, Am awesome"
 		"It's the time to make the terminal burn'"
@@ -154,6 +154,9 @@ _yonce_display_lyric() {
 		"I woke up like this"
 		"I'm feelin' myself, I'm feelin' myself"
 		"I stop the world… WORLD STOP"
+		"Geeky and nerd !!"
+		"Let's do something serious ... penetrate the FBI ?"
+		"What a lovely day to write commands"
 	)
 
 	RANDOM=$$$(date +%s)
