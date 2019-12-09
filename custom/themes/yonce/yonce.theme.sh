@@ -146,28 +146,14 @@ _yonce_display_art() {
 
 _yonce_display_lyric() {
 	LYRICS=(
-		"Yoncé all on his mouth like liquor"
-		"Hang one night with Yoncé, I'll make you famous"
-		"'Cause I slay, all day"
-		"If you liked it then you should have put a ring on it"
+		"I make all ladies crys"
+		"Here is the king, it's me"
+		"What should I say, Am awesome"
+		"It's the time to make the terminal burn'"
 		"To the left, to the left"
 		"I woke up like this"
 		"I'm feelin' myself, I'm feelin' myself"
-		"Always stay gracious, best revenge is your paper"
-		"Okay, ladies, now let's get in formation"
-		"I got hot sauce in my bag, swag"
-		"He better call Becky with the good hair"
-		"Suck on my balls, pause"
-		"Tell 'em, boy bye"
-		"Hold up, they don't love you like I love you"
-		"If you really love me make an album about me"
 		"I stop the world… WORLD STOP"
-		"Gimme my check, put some respek on my check"
-		"Have you ever seen the crowd goin' apeshit?"
-		"Paparazzi, catch my fly and my cocky fresh"
-		"I twirl on them haters"
-		"All on Instagram, cake by the pound"
-		"I sneezed on the beat and the beat got sicker"
 	)
 
 	RANDOM=$$$(date +%s)
@@ -182,7 +168,7 @@ _yonce_display_lyric() {
 ###############################################################################
 
 # Better cd
-cd() { builtin cd "$@" && _yonce_nvm; }
+#cd() { builtin cd "$@" && _yonce_nvm; }
 
 ###############################################################################
 #   PARSERS
@@ -348,7 +334,7 @@ ___yonce_prompt_todo() {
 
 ___yonce_prompt_lyric() {
 	[ "${THEME_SHOW_LYRIC}" != "true" ] && return
-	icon="${yellow} "
+	icon="${yellow}♚ "
 	info=${THEME_COLOR_LYRIC}$(_yonce_display_lyric)
 	printf "%s|%s" "${icon}" "${info}"
 }
