@@ -110,7 +110,8 @@ __YONCE_PROMPT_CHAR_PS1=${THEME_PROMPT_CHAR_PS1:-"└"}
 __YONCE_PROMPT_CHAR_PS2=${THEME_PROMPT_CHAR_PS2:-"└"}
 
 ___YONCE_PREFIX=${___YONCE_PREFIX:-"lyric"}
-___YONCE_TOP_LEFT=${___YONCE_TOP_LEFT:-"user host dir scm"}
+#___YONCE_TOP_LEFT=${___YONCE_TOP_LEFT:-"user host dir scm"}
+___YONCE_TOP_LEFT=${___YONCE_TOP_LEFT:-"dir scm"}
 ___YONCE_TOP_RIGHT=${___YONCE_TOP_RIGHT:-"exitcode node python todo clock battery"}
 ___YONCE_BOTTOM=${___YONCE_BOTTOM:-"char"}
 
