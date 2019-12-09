@@ -97,7 +97,8 @@ THEME_CLOCK_FORMAT=${THEME_CLOCK_FORMAT:-"%H:%M"}
 THEME_COLOR_LYRIC=${white}
 THEME_COLOR_USER=${white}
 THEME_COLOR_HOST=${bold_cyan}
-THEME_COLOR_CWD=${bold_purple}
+#THEME_COLOR_CWD=${bold_purple}
+THEME_COLOR_CWD=${bold_cyan}
 THEME_COLOR_SCM=${yellow}
 THEME_COLOR_EXITCODE=${white}
 
