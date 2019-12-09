@@ -19,7 +19,7 @@ function prompt_command() {
     # Append new history lines to history file
     history -a
 
-    PS1="$(battery_percentage)
+    PS1="
  ${yellow}\W ${ret_status}➤ ${normal}$(scm_prompt_info)${normal} "
 }
 
