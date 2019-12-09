@@ -66,8 +66,8 @@ YONCE_ARTWORK=$king
 # SCM prompts
 SCM_NONE_CHAR=""
 SCM_GIT_CHAR="${white} "
-SCM_GIT_BEHIND_CHAR="${bold_red}⇣${normal}"
-SCM_GIT_AHEAD_CHAR="${bold_green}⇡${normal}"
+SCM_GIT_BEHIND_CHAR="${bold_red}↓${normal}"
+SCM_GIT_AHEAD_CHAR="${bold_green}↑${normal}"
 SCM_GIT_UNTRACKED_CHAR="⌀"
 SCM_GIT_UNSTAGED_CHAR="${bold_yellow}•${normal}"
 SCM_GIT_STAGED_CHAR="${bold_green}+${normal}"
