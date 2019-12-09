@@ -1,4 +1,4 @@
-
+# Because sometimes the "/usr/lib/command-not-found" doesn't work after applying some plugins
 function_exists () {
     # Zsh returns 0 even on non existing functions with -F so use -f
     declare -f $1 > /dev/null
