@@ -12,7 +12,7 @@ enabled/*
 
 # temp files directories
 !/cache/todo.cfg
-/cache/
+#/cache/
 /log/
 !/cache/.gitkeep
 !/log/.gitkeep
