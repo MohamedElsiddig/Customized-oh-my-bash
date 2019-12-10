@@ -1,0 +1,121 @@
+#!/bin/bash
+#See https://github.com/cal2195/note for more information!
+NOTEDIR=$OSH/cache/.notes
+
+usage()
+{
+	echo "Usage: $0 [COMMAND] [NOTE] [TEXT]"
+	echo "A little command line note application"
+	echo ""
+	echo "Commands:"
+	echo "	ls                  List all the saved notes"
+	echo "	echo [NOTE]         Echo out a note"
+	echo "	save [NOTE] [TEXT]  Save a note"
+	echo "	edit [NOTE]         Open the note in an editor"
+	echo "	run [NOTE]          Run the contents of a note as a command"
+	echo "	del [NOTE]          Delete the note"
+	echo ""
+	echo "	install             Install note and tab completion files"
+	echo ""
+	echo "See https://github.com/cal2195/note for more information!"
+	exit 1
+}
+
+init()
+{
+	mkdir -p $NOTEDIR
+}
+
+save()
+{
+	echo "${@:3}" > $NOTEDIR/$2
+}
+
+list()
+{
+	ls $NOTEDIR
+}
+
+show()
+{
+	cat $NOTEDIR/$1
+}
+
+edit()
+{
+	nano $NOTEDIR/$1
+}
+
+run()
+{
+	source $NOTEDIR/$1
+}
+
+delete()
+{
+	rm $NOTEDIR/$1
+}
+
+install()
+{
+	if [[ $EUID -ne 0 ]]; then
+	   echo "install must be run as root!" 1>&2
+	   exit 1
+	fi
+	cp $0 /usr/local/bin/$0
+	install_completion
+	echo "note installed!"
+}
+
+install_completion()
+{
+	echo '_note()
+{
+	local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--help --verbose --version"
+
+	if [[ $COMP_CWORD == 1 ]]; then
+    	COMPREPLY=( $(compgen -W "ls echo save edit run del install help" "$cur" ) )
+    	return 0
+    fi
+
+	if [[ $COMP_CWORD == 2 ]]; then
+        COMPREPLY=( $(compgen -W "$(ls ~/.notes)" -- ${cur}) )
+        return 0
+	fi
+
+}
+complete -F _note note' > /etc/bash_completion.d/note
+}
+
+#Start
+init
+
+case "$1" in
+	ls)
+		list
+		;;
+	echo)
+		show $2
+		;;
+	save)
+		save $@
+		;;
+	edit)
+		edit $2
+		;;
+	run)
+		run $2
+		;;
+	del)
+		delete $2
+		;;
+	install)
+		install
+		;;
+	*)
+		usage
+esac
