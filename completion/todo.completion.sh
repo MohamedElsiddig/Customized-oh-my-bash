@@ -66,5 +66,5 @@ _todo()
     return 0
 }
 
-complete -F _todo todo.sh
+complete -F _todo todo.sh todo
 complete -F _todo t
