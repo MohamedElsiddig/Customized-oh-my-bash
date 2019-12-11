@@ -4,7 +4,7 @@ NOTEDIR=$OSH/cache/.notes
 
 usage()
 {
-	echo "Usage: $0 [COMMAND] [NOTE] [TEXT]"
+	echo "Usage: $(basename $0) [COMMAND] [NOTE] [TEXT]"
 	echo "A little command line note application"
 	echo ""
 	echo "Commands:"
