@@ -45,7 +45,8 @@ command=$(cat ~/.repeat-history |fzy --prompt='Search History: ')
     #else
         #command=${outputArray[$input]}
         # execute command
-        eval $command
+        #eval $command
+		READLINE_LINE=${command}
         # custom append the executed command to the history
         history -s "$command"
         rm -rf ~/.repeat-history
