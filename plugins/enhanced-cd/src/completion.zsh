@@ -13,7 +13,7 @@ __enhancd::completion::list() {
     if [ "$dir" = "/" ]; then
       length=0
     fi
-    find -L "$dir" -mindepth 1 -maxdepth 1 -type d 2>/dev/null \
+    command find -L "$dir" -mindepth 1 -maxdepth 1 -type d 2>/dev/null \
         | cut -b $(( ${length} + 2 ))- | \sed '/^$/d' | while read -r line; do
       if [[ "${line[1]}" == "." ]]; then
         continue
@@ -28,7 +28,7 @@ __enhancd::completion::list() {
     fi
     seg=$(basename -- "$1")
     starts_with_dir=$( \
-      find -L "$dir" -mindepth 1 -maxdepth 1 -type d \
+      command find -L "$dir" -mindepth 1 -maxdepth 1 -type d \
           2>/dev/null | cut -b $(( ${length} + 2 ))- | \sed '/^$/d' \
           | while read -r line; do
         if [[ "${seg[1]}" != "." && "${line[1]}" == "." ]]; then
@@ -42,7 +42,7 @@ __enhancd::completion::list() {
     if [ -n "$starts_with_dir" ]; then
       echo "$starts_with_dir"
     else
-      find -L "$dir" -mindepth 1 -maxdepth 1 -type d \
+      command find -L "$dir" -mindepth 1 -maxdepth 1 -type d \
           2>/dev/null | cut -b $(( ${length} + 2 ))- | \sed '/^$/d' \
           | while read -r line; do
         if [[ "${seg[1]}" != "." && "${line[1]}" == "." ]]; then
@@ -130,9 +130,9 @@ __enhancd::completion::run() {
   tokens=(${(z)LBUFFER})
   cmd=${tokens[1]}
 
-  if [[ "$LBUFFER" =~ "^\ *cd$" ]]; then
+  if [[ "${LBUFFER}" =~ "^\ *${ENHANCD_COMMAND}$" ]]; then
     zle ${ENHANCD_COMPLETION_DEFAULT:-expand-or-complete}
-  elif [ "$cmd" = cd ]; then
+  elif [[ "${cmd}" = ${ENHANCD_COMMAND} ]]; then
     __enhancd::completion::complete ${tokens[2,${#tokens}]/#\~/$HOME}
   else
     zle ${ENHANCD_COMPLETION_DEFAULT:-expand-or-complete}
