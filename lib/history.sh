@@ -32,6 +32,16 @@ PROMPT_COMMAND='history -a'
 HISTSIZE=500000
 HISTFILESIZE=100000
 
+
+######################################################
+#Just Another Way to avoid duplicate entries
+
+tac "$HISTFILE" | awk '!x[$0]++' > /tmp/tmpfile  &&
+                tac /tmp/tmpfile > "$HISTFILE"
+rm /tmp/tmpfile
+
+######################################################
+
 # Avoid duplicate entries
 export HISTCONTROL=ignoreboth:erasedups
 
