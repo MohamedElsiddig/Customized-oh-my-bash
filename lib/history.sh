@@ -33,7 +33,7 @@ HISTSIZE=500000
 HISTFILESIZE=100000
 
 # Avoid duplicate entries
-HISTCONTROL="erasedups:ignoreboth"
+export HISTCONTROL=ignoreboth:erasedups
 
 # Don't record some commands
 export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
