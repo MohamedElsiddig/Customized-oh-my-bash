@@ -1,5 +1,6 @@
 # link: https://github.com/ginatrapani/todo.txt-cli/blob/master/todo_completion
-
+cite about-completion
+about-completion 'todo.sh completion'
 _todo()
 {
     local cur prev opts

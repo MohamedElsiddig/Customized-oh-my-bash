@@ -1,3 +1,5 @@
+cite about-completion
+about-completion 'note command completion $OSH/bin/note'
 _note()
 {
 	local cur prev opts
