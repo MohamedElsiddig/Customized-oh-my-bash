@@ -7,8 +7,8 @@ about-plugin 'Search&Select history and fasd with percol'
 
 # Install
 ## (sudo) pip install percol
-## bash-it enable percol
-## optional: bash-it enable fasd
+## oh-my-bash enable percol
+## optional: oh-my-bash enable fasd
 
 # Usage
 ## C-r to search&select from history
