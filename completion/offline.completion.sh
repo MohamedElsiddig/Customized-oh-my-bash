@@ -20,13 +20,13 @@ _offline() {
 local cur prev
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
       return
-   fi
-cur="${COMP_WORDS[COMP_CWORD]}"
-prev="${COMP_WORDS[COMP_CWORD-1]}"
-words=("-l list --list --ls -x execute --execute -r remove --remove --rm -h --help help") 
+  fi
+#cur="${COMP_WORDS[COMP_CWORD]}"
+#prev="${COMP_WORDS[COMP_CWORD-1]}"
+#words=("-l list --list --ls -x execute --execute -r remove --remove --rm -h --help help") 
 
-COMPREPLY=($(compgen -W "${words}" -- "${cur}"))
-
+COMPREPLY=($(compgen -W "-l list --list --ls -x execute --execute -r remove --remove --rm -h --help help" "${COMP_WORDS[1]}"))
+ 
 }
 
 if [[ `declare -F offline` ]]
