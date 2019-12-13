@@ -52,14 +52,14 @@ print_options()
   echo "  -v, --version: Display the currently installed version of with"
 }
 
-print_usage()
+print_help()
 {
-  print """
+  echo "
     USAGE:
       with <prefix>
 
     Prefix can be any string with a valid executable.
-  """
+  "
   exit 0
 }
 
@@ -372,7 +372,7 @@ main()
   setup
 
   if [ "$1" == "" ]; then
-    print_usage
+    print_help
   elif ! type "$1" > /dev/null 2>&1; then
     echo "error: \"$1\" is not a valid executable"
     exit 1
