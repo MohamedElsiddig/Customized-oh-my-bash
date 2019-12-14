@@ -293,139 +293,64 @@ function git-open(){
   about 'Open the GitHub page or website for a repository in your browser.'
   group 'git'
   example '$ git-open'
-# are we in a git repo?
-git rev-parse --is-inside-work-tree &>/dev/null
 
-if [[ $? != 0 ]]; then
-  echo "Not a git repository." 1>&2
-  return 1
+# Figure out github repo base URL
+base_url=$(git config --get remote.origin.url)
+base_url=${base_url%\.git} # remove .git from end of string
+
+# Fix git@github.com: URLs
+base_url=${base_url//git@github\.com:/https:\/\/github\.com\/}
+
+# Fix git://github.com URLS
+base_url=${base_url//git:\/\/github\.com/https:\/\/github\.com\/}
+
+# Fix git@bitbucket.org: URLs
+base_url=${base_url//git@bitbucket.org:/https:\/\/bitbucket\.org\/}
+
+# Fix git@gitlab.com: URLs
+base_url=${base_url//git@gitlab\.com:/https:\/\/gitlab\.com\/}
+
+# Validate that this folder is a git folder
+git branch 2>/dev/null 1>&2
+if [ $? -ne 0 ]; then
+  echo Not a git repo!
+  exit $?
 fi
 
+# Find current directory relative to .git parent
+full_path=$(pwd)
+git_base_path=$(cd ./$(git rev-parse --show-cdup); pwd)
+relative_path=${full_path#$git_base_path} # remove leading git_base_path from working directory
 
-# assume origin if not provided
-# fallback to upstream if neither is present.
-remote="origin"
-if [ -n "$1" ]; then
-  if [ "$1" == "issue" ]; then
-    currentBranch=$(git symbolic-ref -q --short HEAD)
-    regex='^issue'
-    if [[ $currentBranch =~ $regex ]]; then
-      issue=${currentBranch#*#}
-    else
-      echo "'git open issue' expect branch naming to be issues/#123" 1>&2
-      return 1
-    fi
-  else
-    remote="$1"
+# If filename argument is present, append it
+if [ "$1" ]; then
+  relative_path="$relative_path/$1"
+fi
+
+# Figure out current git branch
+# git_where=$(command git symbolic-ref -q HEAD || command git name-rev --name-only --no-undefined --always HEAD) 2>/dev/null
+git_where=$(command git name-rev --name-only --no-undefined --always HEAD) 2>/dev/null
+
+# Remove cruft from branchname
+branch="${git_where#refs\/heads\/}"
+branch="${branch#tags\/}"
+branch="${branch%^0}"
+
+[[ $base_url == *bitbucket* ]] && tree="src" || tree="tree"
+url="$base_url/$tree/$branch$relative_path"
+
+echo "$url"
+
+# Check for various OS openers. Quit as soon as we find one that works.
+# Don't assume this will work, provide a helpful diagnostic if it fails.
+for opener in xdg-open open cygstart "start"; {
+  if command -v $opener; then
+    open=$opener;
+    break;
   fi
-fi
+}
 
-remote_url="remote.${remote}.url"
-
-giturl=$(git config --get "$remote_url")
-if [ -z "$giturl" ]; then
-  echo "$remote_url not set." 1>&2
-  return 1
-fi
-
-# get current branch
-if [ -z "$2" ]; then
-  branch=$(git symbolic-ref -q --short HEAD)
-else
-  branch="$2"
-fi
-
-# Make # and % characters url friendly
-#   github.com/paulirish/git-open/pull/24
-branch=${branch//%/%25} && branch=${branch//#/%23}
-
-# URL normalization
-# GitHub gists
-if grep -q gist.github <<<$giturl; then
-  giturl=${giturl/git\@gist.github\.com\:/https://gist.github.com/}
-  providerUrlDifference=tree
-
-# GitHub
-elif grep -q github <<<$giturl; then
-  giturl=${giturl/git\@github\.com\:/https://github.com/}
-
-  # handle SSH protocol (links like ssh://git@github.com/user/repo)
-  giturl=${giturl/#ssh\:\/\/git\@github\.com\//https://github.com/}
-
-  providerUrlDifference=tree
-
-# Bitbucket
-elif grep -q bitbucket <<<$giturl; then
-  giturl=${giturl/git\@bitbucket\.org\:/https://bitbucket.org/}
-  # handle SSH protocol (change ssh://https://bitbucket.org/user/repo to https://bitbucket.org/user/repo)
-  giturl=${giturl/#ssh\:\/\/git\@/https://}
-
-  rev="$(git rev-parse HEAD)"
-  git_pwd="$(git rev-parse --show-prefix)"
-  providerUrlDifference="src/${rev}/${git_pwd}"
-  branch="?at=${branch}"
-
-# Atlassian Bitbucket Server
-elif grep -q "/scm/" <<<$giturl; then
-  re='(.*)/scm/(.*)/(.*)\.git'
-  if [[ $giturl =~ $re ]]; then
-    giturl=${BASH_REMATCH[1]}/projects/${BASH_REMATCH[2]}/repos/${BASH_REMATCH[3]}
-    providerUrlDifference=browse
-    branch="?at=refs%2Fheads%2F${branch}"
-  fi
-
-# GitLab
-else
-  # custom GitLab
-  gitlab_domain=$(git config --get gitopen.gitlab.domain)
-  gitlab_port=$(git config --get gitopen.gitlab.port)
-  if [ -n "$gitlab_domain" ]; then
-    if grep -q "$gitlab_domain" <<<$giturl; then
-
-      # Handle GitLab's default SSH notation (like git@gitlab.domain.com:user/repo)
-      giturl=${giturl/git\@${gitlab_domain}\:/https://${gitlab_domain}/}
-
-      # handle SSH protocol (links like ssh://git@gitlab.domain.com/user/repo)
-      giturl=${giturl/#ssh\:\/\//https://}
-
-      # remove git@ from the domain
-      giturl=${giturl/git\@${gitlab_domain}/${gitlab_domain}/}
-
-      # remove SSH port
-      if [ -n "$gitlab_port" ]; then
-        giturl=${giturl/\/:${gitlab_port}\///}
-      fi
-      providerUrlDifference=tree
-    fi
-    # hosted GitLab
-  elif grep -q gitlab <<<$giturl; then
-    giturl=${giturl/git\@gitlab\.com\:/https://gitlab.com/}
-    providerUrlDifference=tree
-  fi
-fi
-giturl=${giturl%\.git}
-
-if [ -n "$issue" ]; then
-  giturl="${giturl}/issues/${issue}"
-elif [ -n "$branch" ]; then
-  giturl="${giturl}/${providerUrlDifference}/${branch}"
-fi
-
-# simplify URL for master
-giturl=${giturl/tree\/master/}
-
-# get current open browser command
-case $( uname -s ) in
-  Darwin)  open=open;;
-  MINGW*)  open=start;;
-  CYGWIN*) open=cygstart;;
-  MSYS*)   open="powershell.exe –NoProfile Start";;
-  *)       open=${BROWSER:-xdg-open};;
-esac
-
-# open it in a browser
-$open "$giturl" &> /dev/null
-return $?
+$open "$url" || (echo "Unrecognized OS: Expected to find one of the following launch commands: xdg-open, open, cygstart, start" && exit 1);
 }
 
 
