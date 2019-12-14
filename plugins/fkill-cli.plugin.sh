@@ -12,7 +12,7 @@ if [[ `which fzf` ]]
 fi
 if [[ ! -z $fuzzy_command ]]
 	then
-		process=`ps -A | awk '{print $1 "\t" $4}' | $fuzzy_command --reverse --border --prompt=Running\ processes:  | awk '{print $1}'`
+		process=`ps -a -u $USER | awk '{print $1 "\t" $4}' | $fuzzy_command --no-mouse --reverse --border --prompt=Running\ processes:  | awk '{print $1}'`
 		if [[ ! -z $process ]] 
 			then
 				process_name=`ps -p $process -o comm=`
