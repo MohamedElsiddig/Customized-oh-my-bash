@@ -86,6 +86,7 @@ __detect(){
     homebrew              ) command="brew"          ;;
     awsebcli              ) command="eb"            ;;
     awscli                ) command="aws"           ;;
+	postgresql            ) command="psql"          ;;
     aria2                ) command="aria2c"           ;;
     *coreutils|linux*utils) command="gnu_coreutils" ;;
     *                     ) command=${name}         ;;
@@ -105,7 +106,7 @@ __detect(){
     sed|awk|grep|file|sudo|find|less|cat|tree) __dynamic_detect--version "${command}" ;;
     gzip|xz|unar|bzip2|msfconsole)     __dynamic_detect--version "${command}" ;;
     tar|pv|wine|ls|fzf)                 __dynamic_detect--version "${command}" ;;
-
+	docker)                 __dynamic_detect--version "${command}" ;;
     R)                      __dynamic_detect--version "${command}" ;;
     node|npm|yarn)          __dynamic_detect--version "${command}" ;;
     grunt|brunch)           __dynamic_detect--version "${command}" ;;
@@ -115,6 +116,8 @@ __detect(){
     groovy|gradle|mvn)      __dynamic_detect--version "${command}" ;;
     lein)                   __dynamic_detect--version "${command}" ;;
     aws|eb|sls|gcloud)      __dynamic_detect--version "${command}" ;;
+	psql)                   __dynamic_detect--version "${command}" ;;
+
 
     # commands that need -v flag
     unzip|apache2|figlet)                  __dynamic_detect-v "${command}" ;;
