@@ -1,7 +1,7 @@
 # OSH_LOAD_PRIORITY: 365
 # Because sometimes the "/usr/lib/command-not-found" doesn't work after applying some plugins
 cite about-plugin
-about-plugin 'Zsh like autocorrect plugin'
+about-plugin 'Zsh like autocorrect featrue using thefuck tool'
 
 function_exists () {
     # Zsh returns 0 even on non existing functions with -F so use -f
