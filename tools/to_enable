@@ -6,7 +6,7 @@
 	source "$OSH/lib/helpers.sh"
 
 
-to_be_load_plugins=(base connection forgit clipboard copybuffer copydir copyfile pkgsearch bashmarks git  system-diagnostic thefuck sudo man ssh-connect web-search repeat-history projects alias-completion bash-insulter cd-reminder fzf offline)
+to_be_load_plugins=(base connection forgit clipboard copybuffer copydir copyfile pkgsearch bashmarks git  system-diagnostic thefuck sudo man ssh-connect web-search repeat-history projects alias-completion bash-insulter cd-reminder fzf offline marker)
 
 to_be_load_aliases=(general ls)
 
