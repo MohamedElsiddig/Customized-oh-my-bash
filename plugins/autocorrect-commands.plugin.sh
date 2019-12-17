@@ -1,4 +1,4 @@
-
+# OSH_LOAD_PRIORITY: 365
 # Because sometimes the "/usr/lib/command-not-found" doesn't work after applying some plugins
 cite about-plugin
 about-plugin 'Zsh like autocorrect plugin'
