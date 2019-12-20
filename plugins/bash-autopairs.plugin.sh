@@ -45,6 +45,10 @@ function __autopair_remove() {
   local previous_char="${READLINE_LINE:READLINE_POINT-1:1}"
   local cursor_char="${READLINE_LINE:READLINE_POINT:1}"
 
+  if [[ "${#READLINE_LINE}" -eq 0 || "$READLINE_POINT" -eq 0 ]]; then
+    return
+  fi
+
   local s
   s="${READLINE_LINE::READLINE_POINT-1}"
 
@@ -104,4 +108,11 @@ done
 bind -x "\"\\\"\": __autopair \\\" \\\" \\\""
 
 bind -x '"\C-h": __autopair_remove'
+
+if [[ -v BASH_AUTOPAIR_BACKSPACE ]]; then
+  # https://lists.gnu.org/archive/html/bug-bash/2019-11/msg00129.html
+  bind 'set bind-tty-special-chars off'
+  bind -x '"\C-?": __autopair_remove'
+fi
+
 unset pair
