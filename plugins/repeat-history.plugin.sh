@@ -42,7 +42,7 @@ then
     #read -p "Enter the number of desired command: " input
 	if [[ _FILTER="fzf"  ]]
 		then
-			command=$(cat ~/.repeat-history |fzf --border --reverse --cycle  --height=45% --query "$READLINE_LINE" --prompt='Search History: ')
+			command=$(cat ~/.repeat-history |fzf --exact --border --reverse --cycle  --height=45% --query "$READLINE_LINE" --prompt='Search History: ')
 	elif [[ _FILTER="fzy"  ]]
 		then
 			command=$(cat ~/.repeat-history |fzy --query "$READLINE_LINE" --prompt='Search History: ')
