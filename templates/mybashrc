@@ -87,7 +87,9 @@ enhanced-cd
 
 source $OSH/oh-my-bash.sh
 
-if [[  $- == *i* && -f /usr/share/blesh/ble.sh ]]
+shopt -q login_shell && export NOTLOGIN="0" || export NOTLOGIN="1"
+
+if [[  $- == *i* && -f /usr/share/blesh/ble.sh && "$NOTLOGIN" == "1" ]]
 	then
 		. /usr/share/blesh/ble.sh 
 		ble-bind -x 'M-s' 'sudo_command'
