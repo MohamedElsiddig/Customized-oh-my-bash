@@ -18,6 +18,7 @@ enabled/*
 !/log/.gitkeep
 
 # disabled files
+bin/wikipedia
 *.swp
 *.disabled
 .idea/.dir_bash_history
