@@ -79,6 +79,12 @@ case "$1" in
     list|-l|--list|--ls)                    _offline-list;;
     remove|-r|--remove|--rm)                _offline-remove;;
     execute|-x|--execute)                   _offline-execute;;
-    *)                                      _offline-store "$*";;
+    *) 
+		if [[ -n $@ ]]
+			then   
+ 		           _offline-store "$*"
+			else
+				_offline-help
+		fi ;;
 esac
 }
