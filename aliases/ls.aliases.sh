@@ -3,7 +3,7 @@
 cite about-alias
 about-alias 'This file holds all ls command aliases'
 # Directory Listing aliases
-if [[ `which lsic` ]]
+if [[ `command -v lsic > /dev/null 2>&1` ]]
 	then
 		alias ls='lsic'
 		alias dir='lsic -hFx'
