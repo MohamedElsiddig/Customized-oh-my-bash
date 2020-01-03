@@ -52,7 +52,7 @@ select_from() {
 has -v fzf expac || die
 
 fzf() {
-  command fzf -e --multi --no-hscroll --inline-info --cycle --bind='Ctrl-a:toggle-all' "$@"
+  command fzf -e --multi --no-hscroll --inline-info --ansi --cycle --bind='Ctrl-a:toggle-all' "$@"
 }
 
 case $1 in
