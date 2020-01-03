@@ -73,7 +73,7 @@ fzf() {
 install() {
   local pkgs count
   mapfile -t pkgs
-  (( ${#pkgs} > 0 )) || exit
+  (( ${#pkgs} > 0 )) || return 
   count="${#pkgs[@]} package"
   (( ${#pkgs[@]} > 1 )) && count+='s'
   printf "installing %s: %s\n" "$count" "${pkgs[*]}"
@@ -144,7 +144,7 @@ fedora() {
 
 while true; do
   case "$1" in
-    -h|--help) usage; exit ;;
+    -h|--help) usage; return  ;;
     -p|--preview) preview_pos="$2"; shift 2 ;;
     *) break
   esac
