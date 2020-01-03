@@ -27,7 +27,7 @@ err() {
 }
 
 die() {
-  exit 1
+  return 1
 }
 
 has() {
@@ -108,6 +108,24 @@ arch() {
   install "$search -S" <<< "$packages"
 }
 
+manjaro() {
+  local search packages
+  search='pacman'
+  [[ -n "$1" ]] && search=$(select_from 'pacaur' 'trizen' 'yaourt' 'packer' 'apacman' 'pacman')
+  packages=$(fzf --preview="$search -Si {2}" \
+    < <( $search -Ss "$1" |
+      gawk '{
+        getline descr;
+        sub(/ */,"", descr);
+        repo = blue "[" gensub(/\/.*/, "", 1) "]" reset;
+        name = green gensub(/.*\//, "", 1, $1) reset;
+        info = gensub(/[^ ]* /, "", 1);
+        print repo, name, info, descr;
+      }' blue="$c_blue" green="$c_green" reset="$c_reset"
+    ) | cut -d' ' -f2)
+  [[ "$search" = "pacman" ]] && search="sudo pacman"
+  install "$search -S" <<< "$packages"
+}
 void() {
   local package_list packagename='{ sub(/-[^\-]*$/, "", $2); print $2 }'
   package_list=$(xbps-query -Rs '' | sort)
@@ -143,7 +161,7 @@ fi
 
 case "$distro" in
   debian|ubuntu) debian "$request" ;;
-  arch) arch "$request" ;;
+  arch|manjaro) arch "$request" ;;
   void) void "$request" ;;
   fedora) fedora "$request" ;;
   *) die 'unknown distro :(' ;;
