@@ -23,14 +23,14 @@ alias kg='echo terminal123 | sudo -S killall gnome-software'
 alias lampp='echo terminal123 | sudo -S /opt/lampp/lampp $1'
 alias reload='source ~/.bashrc'
 alias z='exec zsh'
-if [[ `command -v  cpg > /dev/null 2>&1` && `command -v  mvg > /dev/null 2>&1` ]]
+if [[ `command -v  cpg` && `command -v  mvg` ]]
 	then
 		alias cp='cpg -g'                       
 		alias mv='mvg -g' 
 	else
 		:
 fi
-if [[ `command -v bat > /dev/null 2>&1` ]]
+if [[ `command -v bat` ]]
 	then
 		alias cat='bat'                        
 	else
