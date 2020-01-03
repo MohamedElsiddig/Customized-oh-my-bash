@@ -1,7 +1,73 @@
 #!/usr/bin/env bash
 cite about-plugin
 
-about-plugin 'Searches and remove multiple packages in arch based distros.'
+about-plugin 'Helpfull functions for arch based distros.'
+
+
+function pkgupgrade(){
+about 'Searches the system and upgrade multiple packages.'
+group 'misc'
+has() {
+  local verbose=0
+  if [[ $1 = '-v' ]]; then
+    verbose=1
+    shift
+  fi
+  for c; do c="${c%% *}"
+    if ! command -v "$c" &> /dev/null; then
+      (( "$verbose" > 0 )) && err "$c not found"
+      return 1
+    fi
+  done
+}
+
+err() {
+  printf "\e[31m%s\e[0m\n" "$*" >&2
+}
+
+die() {
+  (( $# > 0 )) && err "$*"
+  exit 1
+}
+
+select_from() {
+  local cmd='command -v'
+  for a; do
+    case "$a" in
+      -c)
+        cmd="$2"
+        shift 2
+        ;;
+    esac
+  done
+  for c; do
+    if $cmd "${c%% *}" &> /dev/null; then
+      echo "$c"
+      return 0
+    fi
+  done
+  return 1
+}
+
+has -v fzf || die
+
+helper=$(select_from pacaur trizen packer apacman pacman)
+
+mapfile -t pkgs < <(
+  $helper -Qu --color=always |
+  fzf --ansi -e -m --inline-info --cycle --reverse --bind='Ctrl-A:toggle-all' |
+  awk '{print $3}'
+)
+
+count="${#pkgs[@]} package"
+(( ${#pkgs[@]} > 1 )) && count+='s'
+printf "upgrading %s: %s\n" "$count" "${pkgs[*]}"
+
+(( ${#pkgs[@]} > 0 )) && $helper -S "${pkgs[@]}"
+}
+
+
+
 
 function pkgremove(){
 about 'Searches repos and remove multiple packages.'
