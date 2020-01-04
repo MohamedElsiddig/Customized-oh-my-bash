@@ -23,6 +23,7 @@ alias kg='echo terminal123 | sudo -S killall gnome-software'
 alias lampp='echo terminal123 | sudo -S /opt/lampp/lampp $1'
 alias reload='source ~/.bashrc'
 alias z='exec zsh'
+alias tmp=' cd $(mktemp -d)'
 if [[ `command -v  cpg` && `command -v  mvg` ]]
 	then
 		alias cp='cpg -g'                       
