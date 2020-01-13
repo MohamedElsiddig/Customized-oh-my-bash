@@ -314,7 +314,7 @@ base_url=${base_url//git@gitlab\.com:/https:\/\/gitlab\.com\/}
 git branch 2>/dev/null 1>&2
 if [ $? -ne 0 ]; then
   echo Not a git repo!
-  exit $?
+  return $?
 fi
 
 # Find current directory relative to .git parent
@@ -350,7 +350,7 @@ for opener in xdg-open open cygstart "start"; {
   fi
 }
 
-$open "$url" || (echo "Unrecognized OS: Expected to find one of the following launch commands: xdg-open, open, cygstart, start" && exit 1);
+$open "$url" || (echo "Unrecognized OS: Expected to find one of the following launch commands: xdg-open, open, cygstart, start" && return 1);
 }
 
 
