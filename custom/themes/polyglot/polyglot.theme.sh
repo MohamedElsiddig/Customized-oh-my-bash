@@ -518,7 +518,7 @@ elif [ "$BASH_VERSION" ]; then
     POLYGLOT_HOSTNAME_STRING=''
   fi
 
-  PROMPT_COMMAND='_polyglot_prompt_command $POLYGLOT_PROMPT_DIRTRIM'
+  PROMPT_COMMAND='history -a;_polyglot_prompt_command $POLYGLOT_PROMPT_DIRTRIM'
 
   # vi command mode
   if [ "$TERM" != 'dumb' ]; then     # Line editing not enabled in Emacs shell
