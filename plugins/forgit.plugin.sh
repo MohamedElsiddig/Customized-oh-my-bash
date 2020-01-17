@@ -47,31 +47,46 @@ forgit::diff() {
         +m -0 --preview=\"$cmd\" --bind=\"enter:execute($cmd |LESS='-R' less)\"
         $FORGIT_DIFF_FZF_OPTS
     "
-    eval "git diff --name-status $commit -- ${files[*]} | sed 's/^\(.\)[[:space:]]\+\(.*\)$/[\1]  \2/'" |
+    eval "git diff --name-status $commit -- ${files[*]} | sed -E 's/^(.)[[:space:]]+(.*)$/[\1]  \2/'" |
         FZF_DEFAULT_OPTS="$opts" fzf
 }
 
 # git add selector
 forgit::add() {
     forgit::inside_work_tree || return 1
-    local changed unmerged untracked files opts
+    # Add files if passed as arguments
+    [[ $# -ne 0 ]] && git add "$@" && return
+
+    local changed unmerged untracked files opts preview extract
     changed=$(git config --get-color color.status.changed red)
     unmerged=$(git config --get-color color.status.unmerged red)
     untracked=$(git config --get-color color.status.untracked red)
 
+    # NOTE: paths listed by 'git status -su' mixed with quoted and unquoted style
+    # remove indicators | remove original path for rename case | remove surrounding quotes
+    extract="
+        sed 's/^.*]  //' |
+        sed 's/.* -> //' |
+        sed -e 's/^\\\"//' -e 's/\\\"\$//'"
+    preview="
+        file=\$(echo {} | $extract)
+        if (git status -s -- \$file | grep '^??') &>/dev/null; then  # diff with /dev/null for untracked files
+            git diff --color=always --no-index -- /dev/null \$file | $forgit_pager | sed '2 s/added:/untracked:/'
+        else
+            git diff --color=always -- \$file | $forgit_pager
+        fi"
     opts="
         $FORGIT_FZF_DEFAULT_OPTS
         -0 -m --nth 2..,..
-        --preview=\"git diff --color=always -- {-1} | $forgit_pager\"
+        --preview=\"$preview\"
         $FORGIT_ADD_FZF_OPTS
     "
-    files=$(git -c color.status=always -c status.relativePaths=true status --short |
+    files=$(git -c color.status=always -c status.relativePaths=true status -su |
         grep -F -e "$changed" -e "$unmerged" -e "$untracked" |
-        sed 's/^\(..[^[:space:]]*\) \(.*\)$/[\1]  \2/' |
+        sed -E 's/^(..[^[:space:]]*)[[:space:]]+(.*)$/[\1]  \2/' |
         FZF_DEFAULT_OPTS="$opts" fzf |
-        sed 's/^.*]  //' |
-        sed 's/.* -> //') # for rename case
-    [[ -n "$files" ]] && echo "$files"| tr '\n' '\0' |xargs -0 -I% git add % && git status --short && return
+        sh -c "$extract")
+    [[ -n "$files" ]] && echo "$files"| tr '\n' '\0' |xargs -0 -I% git add % && git status -su && return
     echo 'Nothing to add.'
 }
 
