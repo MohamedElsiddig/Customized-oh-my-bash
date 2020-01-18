@@ -13,7 +13,7 @@ declare distro
 declare preview_pos='right:hidden'
 
 usage() {
-  LESS=-FEXR less <<HELP
+  LESS=-FEXR cat <<HELP
 pkgsearch [options] [query]
   lists and installs packages from your distro's repositories
 
@@ -92,7 +92,7 @@ debian() {
 arch() {
   local search packages
   search='pacman'
-  [[ -n "$1" ]] && search=$(select_from 'pacaur' 'trizen' 'yaourt' 'packer' 'apacman' 'pacman')
+  [[ -n "$1" ]] && search=$(select_from 'yay' 'pacaur' 'trizen' 'yaourt' 'packer' 'apacman' 'pacman')
   packages=$(fzf --preview="$search -Si {2}" \
     < <( $search -Ss "$1" |
       gawk '{
@@ -111,7 +111,7 @@ arch() {
 manjaro() {
   local search packages
   search='pacman'
-  [[ -n "$1" ]] && search=$(select_from 'pacaur' 'trizen' 'yaourt' 'packer' 'apacman' 'pacman')
+  [[ -n "$1" ]] && search=$(select_from 'yay' 'pacaur' 'trizen' 'yaourt' 'packer' 'apacman' 'pacman')
   packages=$(fzf --preview="$search -Si {2}" \
     < <( $search -Ss "$1" |
       gawk '{
