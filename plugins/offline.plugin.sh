@@ -70,7 +70,7 @@ function _offline-store() {
     [ -e "$STORED_COMMANDS" ] || touch "$STORED_COMMANDS"
 
     # Append the command to the file
-    echo "cd $PWD && $*" >> "$STORED_COMMANDS"
+    echo "cd \"$PWD\" && $*" >> "$STORED_COMMANDS"
 }
 
 # Parse the arguments
