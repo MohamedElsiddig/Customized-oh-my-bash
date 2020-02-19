@@ -232,4 +232,18 @@ function convert_to_mp3() {
 			youtube-dl --extract-audio --audio-format mp3 $1
 	fi
 }
+
+function playlist_download() {
+	about 'Download and saves youtube playlists.'
+	group 'misc'
+	param '1: The URL of youtube video.'
+	example '$ playlist_download URL'
+	if [[ -z $1 ]]
+		then
+			reference playlist_download
+		else
+			youtube-dl -i -f mp4 --yes-playlist $1
+	fi
+}
+
 alias hint='devhints'
