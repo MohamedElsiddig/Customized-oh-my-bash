@@ -209,7 +209,7 @@ if [ ! -d $CACHE_DIR ]; then
 fi
 
 if [ "$REFRESH" == "--refresh" ] || [ ! -e $LOCAL_CACHE_FILE ]; then
-  wget -q -O - $RAW_MD_URL | sed -e '/^{: /d' > $LOCAL_CACHE_FILE
+  wget -q -O - $RAW_MD_URL | sed -e '/^{: /d' >| $LOCAL_CACHE_FILE
 fi
 
 if [ -s $LOCAL_CACHE_FILE ]; then
