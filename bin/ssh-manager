@@ -57,10 +57,10 @@ function list_commands() {
 	separator
 	echo -e "Availables commands"
 	separator
-	echo -e "$0 cc\t<alias> [username]\t\tconnect to server"
-	echo -e "$0 add\t<alias>:<user>:<host>:[port]\tadd new server"
-	echo -e "$0 del\t<alias>\t\t\t\tdelete server"
-	echo -e "$0 export\t\t\t\t\texport config"
+	echo -e "$(basename $0) cc\t<alias> [username]\t\tconnect to server"
+	echo -e "$(basename $0) add\t<alias>:<user>:<host>:[port]\tadd new server"
+	echo -e "$(basename $0) del\t<alias>\t\t\t\tdelete server"
+	echo -e "$(basename $0) export\t\t\t\t\texport config"
 }
 
 function probe ()
@@ -96,7 +96,7 @@ function get_user ()
 function server_add() {
 	probe "$alias"
 	if [ $? -eq 0 ]; then
-		as	echo "$0: alias '$alias' is in use"
+		as	echo "$(basename $0): alias '$alias' is in use"
 	else
 		echo "$alias$DATA_DELIM$user" >> $HOST_FILE
 		echo "new alias '$alias' added"
@@ -182,7 +182,7 @@ case "$cmd" in
 			echo "connecting to '$alias' ($addr:$port)"
 			ssh $user@$addr -p $port
 		else
-			echo "$0: unknown alias '$alias'"
+			echo "$(basename $0): unknown alias '$alias'"
 			exit 1
 		fi
 		;;
@@ -204,11 +204,11 @@ case "$cmd" in
 			mv /tmp/.tmp.$$ $HOST_FILE
 			echo "alias '$alias' removed"
 		else
-			echo "$0: unknown alias '$alias'"
+			echo "$(basename $0): unknown alias '$alias'"
 		fi
 		;;
 	* )
-		echo "$0: unrecognised command '$cmd'"
+		echo "$(basename $0): unrecognised command '$cmd'"
 		exit 1
 		;;
 esac
