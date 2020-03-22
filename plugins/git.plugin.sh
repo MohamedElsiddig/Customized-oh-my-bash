@@ -1,18 +1,34 @@
 cite about-plugin
 about-plugin 'git helper functions'
 
-function commiter() {
+#function commiter() {
+#    about 'Add file, commit and push'
+#    group 'git'
+
+#    git add -f "$1";
+#    if [ "$2" == "" ]; then
+#        git commit -m"Updated $1";
+#    else
+#        git commit -m"$2";
+#    fi;
+#    $(git push -q >> /dev/null 2>&1) &
+#    }
+
+function committer() {
     about 'Add file, commit and push'
     group 'git'
-
-    git add -f "$1";
-    if [ "$2" == "" ]; then
-        git commit -m"Updated $1";
+    # Add file(s), commit and push
+    FILE=$(git status | $(which grep) "modified:" | cut -f2 -d ":" | xargs)
+    for file in $FILE; do git add -f "$file"; done
+    if [ "$1" == "" ]; then
+        # SignOff by username & email, SignOff with PGP and ignore hooks
+        git commit -m"Updated $FILE";
     else
         git commit -m"$2";
     fi;
-    $(git push -q >> /dev/null 2>&1) &
-    }
+    read -t 5 -p "Hit ENTER if you want to push else wait 5 seconds"
+    [ $? -eq 0 ] && bash -c "git push --no-verify -q &"
+}
 
 function git_remote {
   about 'adds remote $GIT_HOSTING:$1 to current repo'
