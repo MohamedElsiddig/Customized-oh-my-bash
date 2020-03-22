@@ -23,8 +23,8 @@ createpr() {
     if [ -f /usr/local/bin/hub ]; then
         /usr/local/bin/hub pull-request -b "${REMOTE}" -h "${BRANCH}" --no-edit || true
     else
-        recho "Failed to create PR, create it Manually"
-        recho "If you would like to continue install hub: https://github.com/github/hub/"
+        echo "Failed to create PR, create it Manually"
+        echo "If you would like to continue install hub: https://github.com/github/hub/"
     fi
 }
 
