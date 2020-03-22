@@ -571,3 +571,27 @@ do
 
 done
 }
+
+
+git-pull-all() {
+    # Pull all remote refs from repos in the current dir
+    CUR_DIR=$(pwd)
+    find -type d -execdir test -d {}/.git \; -print -prune | sort | while read -r DIR;
+        do builtin cd $DIR &>/dev/null;
+        (git fetch -pa && git pull --allow-unrelated-histories \
+            origin $(git symbolic-ref --short HEAD)) &>/dev/null &disown;
+
+        STATUS=$(git status 2>/dev/null |
+        awk -v r=${RED} -v y=${YELLOW} -v g=${GREEN} -v b=${BLUE} -v n=${NC} '
+        /^On branch / {printf(y$3n)}
+        /^Changes not staged / {printf(g"|?Changes unstaged!"n)}
+        /^Changes to be committed/ {printf(b"|*Uncommitted changes!"n)}
+        /^Your branch is ahead of/ {printf(r"|^Push changes!"n)}
+        ')
+        LAST_UPDATE="${STATUS} | ${LIGHTCYAN}[$(git show -1 --stat | grep ^Date | cut -f4- -d' ')]${NC}"
+
+        printf "Repo: \t${DIR} \t| ${LAST_UPDATE}\n";
+        builtin cd - &>/dev/null;
+    done
+    builtin cd ${CUR_DIR} &>/dev/null;
+}
