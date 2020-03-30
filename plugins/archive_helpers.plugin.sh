@@ -1,3 +1,6 @@
+
+cite about-plugin 
+about-plugin "Create archives from terminal with a progressbar + parallel (de)compression"
 if [ ! "$(which pigz)" -o ! "$(which pbzip2)" -o ! "$(which pv)" -o ! "$(which xz)" ]
 then
   echo "Missing dependency for $BASH_SOURCE" >&2
