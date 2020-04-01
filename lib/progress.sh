@@ -6,16 +6,16 @@
 CLEAR_LINE='\x1b[2K\r'
 
 # from https://en.wikipedia.org/wiki/ANSI_escape_code#Example_of_use_in_shell_scripting
-HIGHLIGHT_REVERSE_VIDEO='\x1b[7m'
-HIGHLIGHT_YELLOW_AND_RED='\x1b[93;41m'
-HIGHLIGHT_RESET='\x1b[0m'
+#HIGHLIGHT_REVERSE_VIDEO='\x1b[7m'
+#HIGHLIGHT_YELLOW_AND_RED='\x1b[93;41m'
+#HIGHLIGHT_RESET='\x1b[0m'
 
 print_doing() {
 	printf "☐ doing '%s'..." "${1}"
 }
 
 print_done() {
-	printf "${echo_bold_green}${CLEAR_LINE}[✔] ${echo_normal}'%s' done\\n" "${1}"
+	printf "${echo_bold_green}${CLEAR_LINE}[✔] ${echo_normal}'%s' ${echo_bold_green}done${echo_normal}\\n" "${1}"
 }
 
 # special exit code
@@ -24,8 +24,8 @@ SKIPPED=255
 print_not_done() {
 	if [ "${2}" -eq ${SKIPPED} ]
 	then
-		printf "${CLEAR_LINE}${HIGHLIGHT_REVERSE_VIDEO}[ ] '%s' skipped${HIGHLIGHT_RESET}\\n" "${1}"
+		printf "${echo_bold_white}${CLEAR_LINE}[ ] ${echo_normal}'%s' ${echo_bold_white}skipped${echo_normal}\\n" "${1}"
 	else
-		printf "${CLEAR_LINE}${HIGHLIGHT_YELLOW_AND_RED}[✘] '%s' failed${HIGHLIGHT_RESET}\\n" "${1}"
+		printf "${echo_bold_red}${CLEAR_LINE}[✘] ${echo_normal}'%s' ${echo_bold_red}failed${echo_normal}\\n" "${1}"
 	fi
 }
