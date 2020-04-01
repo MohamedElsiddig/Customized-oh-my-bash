@@ -15,7 +15,7 @@ print_doing() {
 }
 
 print_done() {
-	printf "${CLEAR_LINE}☑ '%s' done\\n" "${1}"
+	printf "${echo_bold_green}${CLEAR_LINE}[✔] ${echo_normal}'%s' done\\n" "${1}"
 }
 
 # special exit code
@@ -24,8 +24,8 @@ SKIPPED=255
 print_not_done() {
 	if [ "${2}" -eq ${SKIPPED} ]
 	then
-		printf "${CLEAR_LINE}${HIGHLIGHT_REVERSE_VIDEO}☐ '%s' skipped${HIGHLIGHT_RESET}\\n" "${1}"
+		printf "${CLEAR_LINE}${HIGHLIGHT_REVERSE_VIDEO}[ ] '%s' skipped${HIGHLIGHT_RESET}\\n" "${1}"
 	else
-		printf "${CLEAR_LINE}${HIGHLIGHT_YELLOW_AND_RED}☒ '%s' failed${HIGHLIGHT_RESET}\\n" "${1}"
+		printf "${CLEAR_LINE}${HIGHLIGHT_YELLOW_AND_RED}[✘] '%s' failed${HIGHLIGHT_RESET}\\n" "${1}"
 	fi
 }
