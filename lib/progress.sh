@@ -11,7 +11,7 @@ CLEAR_LINE='\x1b[2K\r'
 #HIGHLIGHT_RESET='\x1b[0m'
 
 print_doing() {
-	printf "☐ doing '%s'..." "${1}"
+	printf "[ ] doing '%s'..." "${1}"
 }
 
 print_done() {
