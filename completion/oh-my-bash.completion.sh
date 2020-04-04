@@ -77,7 +77,7 @@ _OSH-comp()
   opts="disable enable help reload search show show-enabled"
   case "${chose_opt}" in
     show)
-      local show_args="aliases" "dotfiles" "completions" "plugins"
+      local show_args="aliases dotfiles completions plugins"
       COMPREPLY=( $(compgen -W "${show_args}" -- ${cur}) )
       return 0
       ;;
