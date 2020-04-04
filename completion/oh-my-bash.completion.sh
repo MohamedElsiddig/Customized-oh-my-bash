@@ -4,7 +4,7 @@ about-completion 'oh-my-bash command completion'
 
 _OSH-comp-enable-disable()
 {
-  local enable_disable_args="alias completion plugin"
+  local enable_disable_args="alias completion dotfile plugin"
   COMPREPLY=( $(compgen -W "${enable_disable_args}" -- ${cur}) )
 }
 
@@ -70,7 +70,7 @@ _OSH-comp()
   opts="disable enable help reload search show show-enabled"
   case "${chose_opt}" in
     show)
-      local show_args="aliases completions plugins"
+      local show_args="aliases" "dotfiles" "completions" "plugins"
       COMPREPLY=( $(compgen -W "${show_args}" -- ${cur}) )
       return 0
       ;;
@@ -79,7 +79,7 @@ _OSH-comp()
         _OSH-comp-list-available aliases
         return 0
       else
-        local help_args="aliases completions plugins show-enabled"
+        local help_args="aliases dotfiles completions plugins show-enabled"
         COMPREPLY=( $(compgen -W "${help_args}" -- ${cur}) )
         return 0
       fi
@@ -104,6 +104,10 @@ _OSH-comp()
             ;;
         completion)
             _OSH-comp-list-${suffix} completion
+            return 0
+            ;;
+        dotfile)
+            _OSH-comp-list-${suffix} dotfile
             return 0
             ;;
         *)

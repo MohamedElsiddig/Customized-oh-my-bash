@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+OSH_LOAD_PRIORITY_DEFAULT_DOTFILE=${OSH_LOAD_PRIORITY_DEFAULT_DOTFILE:-100}
 OSH_LOAD_PRIORITY_DEFAULT_ALIAS=${OSH_LOAD_PRIORITY_DEFAULT_ALIAS:-150}
 OSH_LOAD_PRIORITY_DEFAULT_PLUGIN=${OSH_LOAD_PRIORITY_DEFAULT_PLUGIN:-250}
 OSH_LOAD_PRIORITY_DEFAULT_COMPLETION=${OSH_LOAD_PRIORITY_DEFAULT_COMPLETION:-350}
@@ -31,7 +31,7 @@ alias reload_completion="$(_make_reload_alias completion completions)"
 # shellcheck disable=SC2139
 alias reload_plugins="$(_make_reload_alias plugin plugins)"
 
-alias reload_plugins="$(_make_reload_alias dotfile dotfiles)"
+alias reload_dotfiles="$(_make_reload_alias dotfile dotfiles)"
 
 oh-my-bash ()
 {
@@ -227,9 +227,9 @@ _disable-alias ()
 
 _disable-dotfile ()
 {
-    _about 'disables bash_it dotfile'
+    _about 'disables OSH dotfile'
     _param '1: dotfile name'
-    _example '$ disable-dotfile git'
+    _example '$ _disable-dotfile vim'
     _group 'lib'
 
     _disable-thing "dotfiles" "dotfile" $1
@@ -263,7 +263,12 @@ _disable-thing ()
     fi
 
     typeset f suffix
-    suffix=$(echo "$subdirectory" | sed -e 's/plugins/plugin/g')
+    if [[ "$subdirectory" == "plugins" ]]
+        then
+            suffix=$(echo "$subdirectory" | sed -e 's/plugins/plugin/g')
+        else
+            suffix=$(echo "$subdirectory" | sed -e 's/dotfiles/dotfile/g')
+    fi
 
     if [ "$file_entity" = "all" ]; then
         # Disable everything that's using the old structure
@@ -319,12 +324,12 @@ _enable-plugin ()
 
 _enable-dotfile ()
 {
-    _about 'enables bash_it dotfile'
+    _about 'enables OSH dotfile'
     _param '1: dotfile name'
     _example '$ enable-dotfile git'
     _group 'lib'
 
-    _enable-thing "dotfiles" "dotfile" $1 $OSH_LOAD_PRIORITY_DEFAULT_ALIAS
+    _enable-thing "dotfiles" "dotfile" $1 $OSH_LOAD_PRIORITY_DEFAULT_DOTFILE
 }
 
 
