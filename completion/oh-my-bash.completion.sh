@@ -4,7 +4,7 @@ about-completion 'oh-my-bash command completion'
 
 _OSH-comp-enable-disable()
 {
-  local enable_disable_args="alias completion dotfile plugin"
+  local enable_disable_args="dotfile alias completion plugin"
   COMPREPLY=( $(compgen -W "${enable_disable_args}" -- ${cur}) )
 }
 
@@ -35,7 +35,14 @@ _OSH-comp-list-enabled()
   local subdirectory="$1"
   local suffix enabled_things
 
-  suffix=$(echo "$subdirectory" | sed -e 's/plugins/plugin/g')
+  #suffix=$(echo "$subdirectory" | sed -e 's/plugins/plugin/g')
+
+    if [[ "$subdirectory" == "plugins" ]]
+        then
+            suffix=$(echo "$subdirectory" | sed -e 's/plugins/plugin/g')
+        else
+            suffix=$(echo "$subdirectory" | sed -e 's/dotfiles/dotfile/g')
+    fi
 
   enabled_things=$(for f in `sort -d <(compgen -G "${OSH}/$subdirectory/enabled/*.${suffix}.sh") <(compgen -G "${OSH}/enabled/*.${suffix}.sh")`;
     do
@@ -84,7 +91,7 @@ _OSH-comp()
         return 0
       fi
       ;;
-    migrate | reload | search | update | version)
+    reload | search )
       return 0
       ;;
     enable | disable)
@@ -107,7 +114,7 @@ _OSH-comp()
             return 0
             ;;
         dotfile)
-            _OSH-comp-list-${suffix} dotfile
+            _OSH-comp-list-${suffix} dotfiles
             return 0
             ;;
         *)

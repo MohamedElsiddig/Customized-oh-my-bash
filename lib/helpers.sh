@@ -522,7 +522,7 @@ _help-plugins()
 _OSH-show-enabled()
 {
 
-  feature=("aliases" "plugins" "completion")
+  feature=("dotfiles" "aliases" "plugins" "completion")
     printf '%s' 'please wait, Getting enabled features...' && sleep 3
     printf '%s\n\n'  
     for i in ${feature[@]} 
