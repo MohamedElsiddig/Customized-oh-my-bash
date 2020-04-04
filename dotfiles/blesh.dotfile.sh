@@ -1,4 +1,3 @@
-# OSH_LOAD_PRIORITY: 350
 cite about-dotfile
 about-dotfile 'Bash line Editor `A zsh autosuggtion like`'
 

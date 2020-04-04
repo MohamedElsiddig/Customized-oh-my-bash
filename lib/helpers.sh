@@ -441,6 +441,14 @@ _help-completions()
   _OSH-completions
 }
 
+_help-dotfiles()
+{
+  _about 'summarize all dotfiles available in oh-my-bash'
+  _group 'lib'
+
+  _OSH-dotfiles
+}
+
 _help-aliases()
 {
     _about 'shows help for all aliases, or a specific alias group'
