@@ -31,11 +31,13 @@ alias reload_completion="$(_make_reload_alias completion completions)"
 # shellcheck disable=SC2139
 alias reload_plugins="$(_make_reload_alias plugin plugins)"
 
+alias reload_plugins="$(_make_reload_alias dotfile dotfiles)"
+
 oh-my-bash ()
 {
     about 'oh-my-bash help and maintenance'
     param '1: verb [one of: help | show | enable | disable | search | reload | show-enabled ] '
-    param '2: component type [one of: alias(es) | completion(s) | plugin(s) ] or search term(s)'
+    param '2: component type [one of: alias(es) | dotfile(s) | completion(s) | plugin(s) ] or search term(s)'
     param '3: specific component [optional]'
     example '$ oh-my-bash show plugins'
     example '$ oh-my-bash help aliases'
@@ -113,6 +115,16 @@ _OSH-aliases ()
 
     _OSH-describe "aliases" "an" "alias" "Alias"
 }
+
+
+_OSH-dotfiles ()
+{
+    _about 'summarizes available bash_it dotfiles'
+    _group 'lib'
+
+    _OSH-describe "dotfiles" "a" "dotfile" "Dotfile"
+}
+
 
 _OSH-completions ()
 {
@@ -213,6 +225,16 @@ _disable-alias ()
     _disable-thing "aliases" "alias" $1
 }
 
+_disable-dotfile ()
+{
+    _about 'disables bash_it dotfile'
+    _param '1: dotfile name'
+    _example '$ disable-dotfile git'
+    _group 'lib'
+
+    _disable-thing "dotfiles" "dotfile" $1
+}
+
 _disable-completion ()
 {
     _about 'disables oh-my-bash completion'
@@ -294,6 +316,17 @@ _enable-plugin ()
 
     _enable-thing "plugins" "plugin" $1 $OSH_LOAD_PRIORITY_DEFAULT_PLUGIN
 }
+
+_enable-dotfile ()
+{
+    _about 'enables bash_it dotfile'
+    _param '1: dotfile name'
+    _example '$ enable-dotfile git'
+    _group 'lib'
+
+    _enable-thing "dotfiles" "dotfile" $1 $OSH_LOAD_PRIORITY_DEFAULT_ALIAS
+}
+
 
 _enable-alias ()
 {

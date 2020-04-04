@@ -58,7 +58,7 @@ _OSH-search() {
   local component
   export OSH_SEARCH_USE_COLOR=true
   export OSH_GREP=${OSH_GREP:-$(which egrep)}
-  declare -a OSH_COMPONENTS=(aliases plugins completions)
+  declare -a OSH_COMPONENTS=(aliases plugins dotfiles completions)
 
   if [[ -z "$*" ]] ; then
     _OSH-search-help

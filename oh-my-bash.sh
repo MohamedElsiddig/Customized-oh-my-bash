@@ -137,7 +137,7 @@ unset config_file
  source "${OSH}/scripts/reloader.sh"
 
 # Load enabled aliases, completion, plugins
-for file_type in "aliases" "plugins" "completion"
+for file_type in "aliases" "dotfiles" "plugins" "completion"
 do
   # shellcheck source=./scripts/reloader.bash
   source "${OSH}/scripts/reloader.sh" "skip" "$file_type"
