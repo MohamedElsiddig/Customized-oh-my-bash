@@ -36,7 +36,7 @@ alias reload_dotfiles="$(_make_reload_alias dotfile dotfiles)"
 oh-my-bash ()
 {
     about 'oh-my-bash help and maintenance'
-    param '1: verb [one of: help | show | enable | disable | search | reload | show-enabled ] '
+    param '1: verb [one of: help | show | enable | disable | search | reload| logs | show-enabled ] '
     param '2: component type [one of: alias(es) | dotfile(s) | completion(s) | plugin(s) ] or search term(s)'
     param '3: specific component [optional]'
     example '$ oh-my-bash show plugins'
@@ -68,6 +68,8 @@ oh-my-bash ()
         func=_OSH-reload;;
       show-enabled)
         func=_OSH-show-enabled ;;
+      logs)
+        func=_OSH-show-log ;;
       *)
         reference oh-my-bash
         return;;
@@ -493,6 +495,14 @@ _help-show-enabled()
     _group 'lib'
     echo 'Summarize all enabled features in oh-my-bash framework'
 }
+
+_help-logs()
+{
+  _about 'Print oh-my-bash startup logs'
+    _group 'lib'
+    echo 'Prints oh-my-bash startup logs'
+}
+
 _help-plugins()
 {
     _about 'summarize all functions defined by enabled oh-my-bash plugins'
@@ -545,6 +555,17 @@ _OSH-show-enabled()
         echo ""
     done 
 
+}
+_OSH-show-log()
+{
+    _about 'Show oh-my-bash startup log file'
+    log_file="$OSH/log/bash-startup.log"
+    if [[ -f "$log_file" ]]
+        then 
+            cat $log_file
+        else
+        return 1
+    fi
 }
 
 function _OSH-auto-enabling-completions()

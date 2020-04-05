@@ -14,12 +14,12 @@ if [ "$1" != "skip" ] && [ -d "./enabled" ]; then
         | sed --regexp-extended 's/[[:digit:]]{1,3}-{3}//')"
       name="$(echo "${name_and_topic}" | cut --delimiter=. --fields=1)"
       topic="$(echo "${name_and_topic}" | cut --delimiter=. --fields=2)"
-      print_doing "${topic}/${name}"
+      print_doing "${topic}/${name}" > /dev/null 2>&1
 
       # shellcheck source=/dev/null
       if source $_OSH_config_file
       then
-        print_done "${topic}/${name}"
+        print_done "${topic}/${name}" 
       else
         print_not_done "${topic}/${name}" ${?}
       fi
@@ -28,7 +28,7 @@ if [ "$1" != "skip" ] && [ -d "./enabled" ]; then
     else
       echo "Unable to read ${_OSH_config_file}" > /dev/stderr
     fi
-  done
+  done >| $OSH/log/bash-startup.log
 fi
 
 
