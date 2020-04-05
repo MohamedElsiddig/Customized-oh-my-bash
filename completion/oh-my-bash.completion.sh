@@ -74,7 +74,7 @@ _OSH-comp()
   prev="${COMP_WORDS[COMP_CWORD-1]}"
   chose_opt="${COMP_WORDS[1]}"
   file_type="${COMP_WORDS[2]}"
-  opts="disable enable help reload search show show-enabled log"
+  opts="disable enable help reload search show show-enabled logs"
   case "${chose_opt}" in
     show)
       local show_args="aliases dotfiles completions plugins"
@@ -86,7 +86,7 @@ _OSH-comp()
         _OSH-comp-list-available aliases
         return 0
       else
-        local help_args="aliases dotfiles completions plugins show-enabled log"
+        local help_args="aliases dotfiles completions plugins show-enabled logs"
         COMPREPLY=( $(compgen -W "${help_args}" -- ${cur}) )
         return 0
       fi
