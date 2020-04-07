@@ -25,7 +25,7 @@ alias reload='source ~/.bashrc'
 alias z='exec zsh'
 alias tmp=' cd $(mktemp -d)'
 alias clone='git clone'
-alias hibernat='systemctl hibernate'
+alias hibernate='systemctl hibernate'
 if [[ `command -v  cpg` && `command -v  mvg` ]]
 	then
 		alias cp='cpg -g'                       
