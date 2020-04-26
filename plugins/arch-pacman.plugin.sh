@@ -140,3 +140,22 @@ fi
 
 (( ${#pkgs[@]} > 0 )) && sudo pacman -Rcusn "${pkgs[@]}"
 }
+
+
+function pkglist(){
+
+if [[ `command -v  expac` ]]
+    then
+        pacs=$(expac -Qs --timefmt="%y/%m/%d" "%l|{%w}{%G}%n|%d" | \
+	        grep -v -E "{dependency}|{xorg.*}|{base.*}" | \
+	        sort | \
+	        sed 's|{[^}]*}||g')
+
+        num_of_pacs=$(echo "$pacs" | wc -l)
+
+        echo "$pacs" | column -s "|" -t -o " | " -W3
+        printf "\nTotal: %d\n" "$num_of_pacs"
+    else
+    echo "To use this function you need expac command please download it"
+fi
+}
