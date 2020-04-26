@@ -8,7 +8,7 @@ _mkarchive_completions()
       return
    fi
 
-   COMPREPLY=($(compgen  -W "bz2 tgz tar zip 7z" "${COMP_WORDS[1]}")) 
+   COMPREPLY=($(compgen  -W "bz2 tgz tar zip 7z tzstd ${COMP_WORDS[1]}")) 
    
 }
 

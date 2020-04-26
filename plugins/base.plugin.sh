@@ -256,7 +256,7 @@ function extract() {
     do
       if [ -f "$n" ] ; then
           case "${n%,}" in
-            *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar) 
+            *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tar.zst|*.tbz2|*.tgz|*.txz|*.tar) 
                          tar xvf "$n"       ;;
             *.lzma)      unlzma "$n"      ;;
             *.bz2)       bunzip2 "$n"     ;;
@@ -353,6 +353,7 @@ function mkarchive(){
 			case $1 in
 				  bz2)	tar  cvjf  "$2.tar.bz2" -C "$3" . ;;
 				  tgz)	tar cvzf   "$2.tar.gz" -C "$3" .  ;;
+				  tzstd)	tar --zstd  -cf "$2.tar.zst" -C "$3" .  ;;
 				  tar)	tar cvf	    "$2.tar"   -C "$3" .  ;;
 				  zip)	zip -r "$2".zip "$3" ;;
 				   7z)  7z a -mx=$2 "$3".7z $4 ;;
