@@ -340,7 +340,7 @@ oft () {
 function mkarchive(){
 		about 'Create a compress file form a directory.'
 		group 'base'
-		param '1: The Compress Method [ zip | tgz | tar | bz2 | 7z ]'
+		param '1: The Compress Method [ zip | tgz | tar | bz2 | 7z | zstd]'
 		param '2: The output file name'
 		param '3: The Directory to compress'
 		example '$ mkarchive zip Shell-scripts ~/Docuoments/Shell-scripts'
@@ -353,8 +353,8 @@ function mkarchive(){
 			case $1 in
 				  bz2)	tar  cvjf  "$2.tar.bz2" -C "$3" . ;;
 				  tgz)	tar cvzf   "$2.tar.gz" -C "$3" .  ;;
-				  tzstd)	tar --zstd  -cf "$2.tar.zst" -C "$3" .  ;;
-				  tar)	tar cvf	    "$2.tar"   -C "$3" .  ;;
+				  tzstd)	tar --zstd  -cvf "$2.tar.zst" -C "$3" .  ;;
+				  tar)	tar cvf    "$2.tar"   -C "$3" .  ;;
 				  zip)	zip -r "$2".zip "$3" ;;
 				   7z)  7z a -mx=$2 "$3".7z $4 ;;
 				  *)   	reference mkarchive ;;
