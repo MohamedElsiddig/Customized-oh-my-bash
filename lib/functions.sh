@@ -26,7 +26,7 @@ function take() {
   cd "$1" || exit
 }
 
-function open_command() {
+function open() {
   local open_cmd
 
   # define the open command
