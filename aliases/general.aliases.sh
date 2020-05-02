@@ -39,6 +39,13 @@ if [[ `command -v bat` ]]
 	else
 		:
 fi
+
+if [[ `command -v tty-clock` ]]
+	then
+		alias tty-clock='tty-clock -t -c'                        
+	else
+		:
+fi
 #alias cp='cp -iv'                           # Preferred 'cp' implementation
 #alias mv='mv -iv'                           # Preferred 'mv' implementation
 alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
