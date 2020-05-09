@@ -40,8 +40,9 @@ function committer() {
     else
         git commit -m"$2";
     fi;
-    read -t 5 -p "Hit ENTER if you want to push else wait 5 seconds"
-    [ $? -eq 0 ] && bash -c "git push --no-verify -q &"
+   # read -t 5 -p "Hit ENTER if you want to push else wait 5 seconds"
+   # [ $? -eq 0 ] &&
+     bash -c "git push --no-verify -q &"
 }
 
 function git_remote {
