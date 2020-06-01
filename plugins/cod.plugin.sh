@@ -2,7 +2,7 @@
 cite about-plugin
 about-plugin 'Cod is a completion daemon It detects usage of --help commands parses their output and generates auto-completions for your shell.'
 
-if [[ `command -v  cod`]]
+if [[ `command -v  cod` ]]
 	then
         source <(cod init $$ bash)
 	else
@@ -18,4 +18,4 @@ if [[ `command -v  cod`]]
 		sleep 1
 		_disable-plugin cod 
 fi
-fi
+
