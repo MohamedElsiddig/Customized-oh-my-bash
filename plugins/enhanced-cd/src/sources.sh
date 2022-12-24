@@ -52,7 +52,10 @@ __enhancd::sources::default()
         return 0
     fi
 
-    __enhancd::history::list | __enhancd::filter::interactive
+    {
+        __enhancd::entry::git::root
+        __enhancd::history::list
+    } | __enhancd::filter::interactive
 }
 
 __enhancd::sources::argument()

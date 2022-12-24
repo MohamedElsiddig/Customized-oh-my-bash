@@ -1,11 +1,13 @@
-[version-badge]: https://img.shields.io/github/tag/b4b4r07/enhancd.svg?style=flat-square
+[version-badge]: https://img.shields.io/github/tag/b4b4r07/enhancd.svg
 [version-link]: https://github.com/b4b4r07/enhancd/releases
-[travis-badge]: https://img.shields.io/travis/b4b4r07/enhancd/master.svg?style=flat-square
-[travis-link]: https://travis-ci.org/b4b4r07/enhancd
-[awk-link]: http://pubs.opengroup.org/onlinepubs/9699919799/utilities/awk.html
-[license-link]: http://b4b4r07.mit-license.org
 
-[![][travis-badge]][travis-link] [![][version-badge]][version-link]
+[active-badge]: https://masterminds.github.io/stability/active.svg
+[active-link]:  https://masterminds.github.io/stability/active.html
+
+[awk-link]: http://pubs.opengroup.org/onlinepubs/9699919799/utilities/awk.html
+[license-link]: https://b4b4r07.mit-license.org
+
+[![][version-badge]][version-link] [![][active-badge]][active-link]
 
 <a href="top"></a>
 
@@ -18,13 +20,15 @@
 |
 <b><a href="#features">Features</a></b>
 |
+<b><a href="#issues">Known issues</a></b>
+|
 <b><a href="#requirements">Requirements</a></b>
 |
 <b><a href="#usage">Usage</a></b>
 <br>
 <b><a href="#installation">Installation</a></b>
 |
-<b><a href="#configuration">Configuration</a></b>
+<b><a href="#configurations">Configurations</a></b>
 |
 <b><a href="#references">References</a></b>
 |
@@ -53,11 +57,18 @@ Thanks to this mechanism, the user can intuitively and easily change the directo
 
 - Go to the visited directory in the past
 - Easy to filter, using your favorite filter
-- Work on Bash and Zsh (Full compatible)
+- Work on Bash, Zsh and fish (cross-shell compatibility)
 - Go back to a specific parent directory like [zsh-bd](https://github.com/Tarrasch/zsh-bd)
+- Inside a git repo, the first list element is the git root directory
 - Fuzzy search in a similar name directory
 - Support standard input (`echo $HOME | cd` is acceptable)
 - Custom options (user-defined option is acceptable)
+
+## Issues
+
+- Fish version
+  - Because of how fish piping works, it's not possible to pipe to cd like : `ls / | cd`
+
 
 ### Fuzzy search
 
@@ -126,7 +137,7 @@ $ ENHANCD_FILTER=fzy:fzf:peco
 $ export ENHANCD_FILTER
 ```
 
-Also, 
+Also,
 
 <details>
 <summary><strong>Hyphen (<code>-</code>)</strong></summary>
@@ -146,7 +157,7 @@ $ cd -
   /home/lisa/src/github.com/b4b4r07
 > /home/lisa/src/github.com/b4b4r07/portfolio
   10/10
-> _	
+> _
 ```
 
 Then, since the current directory will be delete from the candidate, you just press Enter key to return to the previous directory after type `cd -` (`$PWD` is `/home/lisa`, `$OLDPWD` is `/home/lisa/src/github.com/b4b4r07/portfolio`).
@@ -180,6 +191,11 @@ When moving to the parent directory, the current directory is removed from the c
 
 </details>
 
+
+### Enhancd complete (fish)
+
+On fish shell, you can use `alt+f` to trigger `enhancd` when typing a command, the selected item will be appended to the commandline
+
 ### Options
 
 ```console
@@ -188,32 +204,53 @@ usage: cd [OPTIONS] [dir]
 
 OPTIONS:
   -h, --help       Show help message
-  -G, --ghq        Filter ghq list
-
 ```
 
-Those options are defined at [config.ltsv](https://github.com/b4b4r07/enhancd/blob/master/config.ltsv). As it is written in this json, the user have to make a directory list file or script that generate the list like [this script](https://github.com/b4b4r07/enhancd/blob/master/src/custom/sources/ghq.sh).　Of cource, you can disable those options if you do not like it.
+Those options are defined at [config.ltsv](https://github.com/b4b4r07/enhancd/blob/master/config.ltsv). As it is written in this json, the user have to make a directory list file or script that generate the list like [this script](https://github.com/b4b4r07/enhancd/blob/master/src/custom/sources/ghq.sh). Of cource, you can disable those options if you do not like it.
 
 ## Installation
 
-enhancd can work on bash and zsh. But let's say we use bash as default shell at this example:
+### Declarative way (bash/zsh/fish):
+
+Using CLI package manager "[afx](https://github.com/b4b4r07/afx)". YAML for the installation is here:
+
+```yaml
+github:
+- name: b4b4r07/enhancd
+  description: A next-generation cd command with your interactive filter
+  owner: b4b4r07
+  repo: enhancd
+  plugin:
+    env:
+      ENHANCD_FILTER: fzf --height 25% --reverse --ansi:fzy
+    sources:
+    - init.sh
+```
+
+then,
+
+```console
+afx install
+```
+
+### Bash
 
 ```console
 # add the fzy brew tap to homebrew
 $ brew tap jhawthorn/fzy
 
 # install fzy and ccat with homebrew
-$ brew install fzy ccat 
+$ brew install fzy ccat
 
-# alt: brew install fzy ccat percol peco fzf 
+# alt: brew install fzy ccat percol peco fzf
 #  depending on which interactive filter you want to use
 
 # install enhancd into your home directory (or a preferred directory)
-$ cd ~  
+$ cd ~
 $ git clone https://github.com/b4b4r07/enhancd
 
 # if you want to hide the directory in the finder (gui)
-$ chflags hidden enhancd  
+$ chflags hidden enhancd
 
 # add enhancd to your bash profile (or sourced file of choice)
 $ echo "source ~/enhancd/init.sh"  >> ~/.bash_profile
@@ -222,10 +259,24 @@ $ echo "source ~/enhancd/init.sh"  >> ~/.bash_profile
 $ source ~/.bash_profile
 ```
 
+### Zsh
+
 Also if you use zsh as your shell, you can install this via [zplug](https://github.com/zplug/zplug) which is powerfull plugin mananger for zsh:
 
 ```bash
 zplug "b4b4r07/enhancd", use:init.sh
+```
+
+### Fish
+
+#### System Requirements
+
+- [Fish](https://fishshell.com/) ≥ 3.0
+
+Install with [Fisher](https://github.com/jorgebucaran/fisher):
+
+```console
+fisher install b4b4r07/enhancd
 ```
 
 ## Configurations
@@ -321,7 +372,7 @@ If you don't want to use the interactive filter when you call `cd` without an ar
 <details>
 <summary><strong><code>ENHANCD_DOT_ARG</code></strong></summary>
 
-You can customize the double-dot (`..`) argument for enhancd by this environment variable.  
+You can customize the double-dot (`..`) argument for enhancd by this environment variable.
 Default is `..`.
 
 If you set this variable any but `..`, it gives you the _double-dot_ behavior with that argument; i.e. upward search of directory hierarchy.
@@ -334,7 +385,7 @@ In other words, you can keep original `cd ..` behavior by this option.
 <details>
 <summary><strong><code>ENHANCD_HYPHEN_ARG</code></strong></summary>
 
-You can customize the hyphen (`-`) argument for enhancd by this environment variable.  
+You can customize the hyphen (`-`) argument for enhancd by this environment variable.
 Default is `-`.
 
 If you set this variable any but `-`, it gives you the _hyphen_ behavior with that argument; i.e. backward search of directory-change history.
@@ -347,7 +398,7 @@ In other words, you can keep original `cd -` behavior by this option.
 <details>
 <summary><strong><code>ENHANCD_HYPHEN_NUM</code></strong></summary>
 
-You can customize the number of rows by "cd -" 
+You can customize the number of rows by "cd -"
 Default is `10`.
 
 This is passed to `head` comand as `-n` option.
@@ -419,3 +470,7 @@ The "visual filter" (interactive filter) is what is called "Interactive Grep Too
 ## License
 
 [MIT][license-link] :copyright: b4b4r07
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/b4b4r07/enhancd.svg)](https://starchart.cc/b4b4r07/enhancd)
